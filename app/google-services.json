@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "527912374117",
+    "project_id": "wocombo-c51ec",
+    "storage_bucket": "wocombo-c51ec.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:527912374117:android:f70d6643788a0bc5465b8c",
+        "android_client_info": {
+          "package_name": "com.example.wocombo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "527912374117-u62h9d2ai8fo1bur8hvftim14so3lmau.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyByai15XmRHhQZcjGzuzh8ac9z7Edl5n_I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "527912374117-u62h9d2ai8fo1bur8hvftim14so3lmau.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
