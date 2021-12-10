@@ -85,6 +85,7 @@ dependencies {
     implementation 'com.maxkeppeler.sheets:options:2.1.4'
     implementation 'com.maxkeppeler.sheets:core:2.1.4'
     implementation 'com.maxkeppeler.sheets:lottie:2.1.4'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
     //Tests
     testImplementation "io.mockk:mockk:1.11.0"

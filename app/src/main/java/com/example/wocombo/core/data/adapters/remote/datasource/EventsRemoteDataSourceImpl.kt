@@ -13,7 +13,7 @@ class EventsRemoteDataSourceImpl(
     private val api: EventApi
 ) : EventsRemoteDataSource {
 
-    private val tag = LoggerTags.SCHEDULE
+    private val tag = LoggerTags.EVENT
 
     override fun downloadEvents(): List<EventEntity> {
         Log.d(tag, "Start download event list")
