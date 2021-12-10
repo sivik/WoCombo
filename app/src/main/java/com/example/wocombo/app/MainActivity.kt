@@ -1,4 +1,4 @@
-package com.example.wocombo
+package com.example.wocombo.app
 
 import android.os.Bundle
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -7,22 +7,21 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.example.wocombo.R
 import com.example.wocombo.databinding.ActivityMainBinding
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.firebase.crashlytics.FirebaseCrashlytics
-import com.google.firebase.iid.FirebaseInstanceId
-import com.google.firebase.messaging.FirebaseMessaging
+import com.example.wocombo.common.extensions.viewInflateBinding
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityMainBinding
+    private val binding by viewInflateBinding(ActivityMainBinding::inflate)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        fetchFCMToken()
+       prepareNavView()
+    }
+
+    private fun prepareNavView() {
         val navView: BottomNavigationView = binding.navView
 
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
@@ -37,20 +36,6 @@ class MainActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
-
     }
 
-
-    private fun fetchFCMToken() {
-        FirebaseMessaging.getInstance().token.apply {
-            addOnSuccessListener { result ->
-                result?.let {
-                    sendTokenToServer(result)
-                }
-            }
-            addOnFailureListener { exception ->
-                FirebaseCrashlytics.getInstance().recordException(Throwable(exception))
-            }
-        }
-    }
 }
