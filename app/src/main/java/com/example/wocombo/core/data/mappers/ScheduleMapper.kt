@@ -1,12 +1,21 @@
 package com.example.wocombo.core.data.mappers
 
-import com.example.wocombo.core.data.adapters.remote.rest.response.EventsItemRemoteModel
-import com.example.wocombo.core.data.model.EventEntity
+import com.example.wocombo.core.data.adapters.remote.rest.response.ScheduleItemRemoteModel
+import com.example.wocombo.core.data.model.ScheduleEntity
+import com.example.wocombo.core.domain.models.Schedule
 
-fun EventsItemRemoteModel.mapToEntity(){
+fun ScheduleItemRemoteModel.mapToEntity() = ScheduleEntity(
+    date = date,
+    id = id,
+    imageUrl = imageUrl,
+    subtitle = subtitle,
+    title = title
+)
 
-}
-
-fun EventEntity.mapToDomain(){
-
-}
+fun ScheduleEntity.mapToDomain() = Schedule(
+    date = date,
+    id = id,
+    imageUrl = imageUrl,
+    subtitle = subtitle,
+    title = title
+)
