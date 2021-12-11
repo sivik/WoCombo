@@ -3,23 +3,38 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_home">
+    app:startDestination="@id/loginFragment">
 
     <fragment
-        android:id="@+id/navigation_home"
-        android:name="com.example.wocombo.core.presentation.ui.transmissionlist.HomeFragment"
-        android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
+        android:id="@+id/navigation_transmission_list"
+        android:name="com.example.wocombo.core.presentation.ui.transmissionlist.TransmissionListFragment"
+        android:label=""
+        tools:layout="@layout/fragment_transmission_list" >
+        <action
+            android:id="@+id/action_navigation_transmission_list_to_streamFragment"
+            app:destination="@id/streamFragment" />
+        <action
+            android:id="@+id/action_navigation_transmission_list_to_aboutFragment"
+            app:destination="@id/aboutFragment" />
+    </fragment>
 
     <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="com.example.wocombo.core.presentation.ui.stream.DashboardFragment"
-        android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
-
+        android:id="@+id/loginFragment"
+        android:name="com.example.wocombo.core.presentation.ui.login.LoginFragment"
+        android:label="login_fragment"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment_to_navigation_transmission_list"
+            app:destination="@id/navigation_transmission_list" />
+    </fragment>
     <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="com.example.wocombo.core.presentation.ui.transmissionlist.events.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        android:id="@+id/streamFragment"
+        android:name="com.example.wocombo.core.presentation.ui.stream.StreamFragment"
+        android:label="fragment_stream"
+        tools:layout="@layout/fragment_stream" />
+    <fragment
+        android:id="@+id/aboutFragment"
+        android:name="com.example.wocombo.core.presentation.ui.about.AboutFragment"
+        android:label="fragment_about"
+        tools:layout="@layout/fragment_about" />
 </navigation>

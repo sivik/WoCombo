@@ -10,4 +10,10 @@ interface BaseNavigation {
 
     fun popBackStack()
 
+    fun openTransmissionList()
+
+    fun openStream(url: String)
+
+    fun openAboutApp()
+
 }

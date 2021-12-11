@@ -2,16 +2,14 @@ package com.example.wocombo.common.extensions
 
 import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
-import androidx.viewbinding.ViewBinding
-import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
+import androidx.viewbinding.ViewBinding
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
-
 
 class FragmentViewBindingDelegate<T : ViewBinding>(
     val fragment: Fragment,
@@ -19,6 +17,7 @@ class FragmentViewBindingDelegate<T : ViewBinding>(
     val cleanUp: ((T?) -> Unit)?
 ) : ReadOnlyProperty<Fragment, T> {
 
+    // A backing property to hold our value
     private var binding: T? = null
 
     init {
@@ -67,23 +66,11 @@ class FragmentViewBindingDelegate<T : ViewBinding>(
     }
 }
 
-inline fun <T : ViewBinding> Fragment.viewBinding(
-    crossinline viewBindingFactory: (View) -> T,
-    noinline cleanUp: ((T?) -> Unit)? = null,
-): FragmentViewBindingDelegate<T> =
-    FragmentViewBindingDelegate(
-        this,
-        { f -> viewBindingFactory(f.requireView()) },
-        cleanUp
-    )
-
 inline fun <T : ViewBinding> Fragment.viewInflateBinding(
     crossinline bindingInflater: (LayoutInflater) -> T,
-    noinline cleanUp: ((T?) -> Unit)? = null
+    noinline cleanUp: ((T?) -> Unit)? = null,
 ): FragmentViewBindingDelegate<T> =
-    FragmentViewBindingDelegate(this, { f ->
-        bindingInflater(f.layoutInflater)
-    }, cleanUp)
+    FragmentViewBindingDelegate(this, { f -> bindingInflater(f.layoutInflater) }, cleanUp)
 
 inline fun <T : ViewBinding> AppCompatActivity.viewInflateBinding(
     crossinline bindingInflater: (LayoutInflater) -> T

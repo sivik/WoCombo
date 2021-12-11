@@ -10,18 +10,21 @@ import com.example.wocombo.core.domain.repositories.EventsRepository
 import com.example.wocombo.core.domain.repositories.ScheduleRepository
 import com.example.wocombo.core.domain.usecases.DownloadEventsUseCase
 import com.example.wocombo.core.domain.usecases.DownloadSchedulesUseCase
+import com.example.wocombo.core.domain.usecases.LoginUseCase
+import com.example.wocombo.core.presentation.ui.login.LoginViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 val coreModule = module {
 
     /* VIEWMODEL */
-    viewModel { LoginViewModel(get(), get(), get(), get()) }
+    viewModel { LoginViewModel(get()) }
     viewModel { ChooseEupViewModel(get(), get(), get()) }
 
     /*USECASE*/
     single { DownloadSchedulesUseCase(get()) }
     single { DownloadEventsUseCase(get()) }
+    single { LoginUseCase() }
 
     /*REPOSITORY*/
     single<EventsRepository> { EventsRepositoryImpl(get()) }

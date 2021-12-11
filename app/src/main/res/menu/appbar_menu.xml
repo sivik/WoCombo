@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:preparatest="http://schemas.android.com/tools">
+
+    <item
+        android:icon="@drawable/ic_baseline_notifications_24"
+        android:title="@string/notification"
+        android:id="@+id/menu_notification"
+        preparatest:showAsAction="ifRoom"
+        app:showAsAction="always"/>
+
+    <item
+        android:icon="@drawable/ic_baseline_filter_list_24"
+        android:title="@string/filters"
+        android:id="@+id/menu_filter"
+        preparatest:showAsAction="ifRoom"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/menu_sort"
+        android:enabled="true"
+        android:icon="@drawable/ic_baseline_sort_24"
+        android:orderInCategory="10"
+        android:title="@string/sort"
+        app:showAsAction="ifRoom">
+        <menu android:id="@+id/submenu_sort">
+            <group android:id="@+id/exclusive_checkable_group">
+                <item
+                    android:id="@+id/menu_sort_date_desc"
+                    android:checkable="true"
+                    android:title="@string/sort_date_desc" />
+
+                <item
+                    android:id="@+id/menu_sort_date_asc"
+                    android:checkable="true"
+                    android:title="@string/sort_date_asc" />
+
+            </group>
+        </menu>
+    </item>
+</menu>

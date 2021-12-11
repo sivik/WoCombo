@@ -5,7 +5,18 @@
       <map>
         <entry key="..\:/Users/Sebek/StudioProjects/WoCombo/app/src/main/res/drawable/ic_baseline_celebration_24.xml" value="0.20260416666666667" />
         <entry key="..\:/Users/Sebek/StudioProjects/WoCombo/app/src/main/res/layout/activity_main.xml" value="0.18645833333333334" />
+        <entry key="..\:/Users/Sebek/StudioProjects/WoCombo/app/src/main/res/layout/fragment_dashboard.xml" value="0.1480978260869565" />
+        <entry key="..\:/Users/Sebek/StudioProjects/WoCombo/app/src/main/res/layout/fragment_event_list.xml" value="0.13949275362318841" />
         <entry key="..\:/Users/Sebek/StudioProjects/WoCombo/app/src/main/res/layout/fragment_home.xml" value="0.161231884057971" />
+        <entry key="..\:/Users/Sebek/StudioProjects/WoCombo/app/src/main/res/layout/fragment_login.xml" value="0.18645833333333334" />
+        <entry key="..\:/Users/Sebek/StudioProjects/WoCombo/app/src/main/res/layout/fragment_notifications.xml" value="0.13949275362318841" />
+        <entry key="..\:/Users/Sebek/StudioProjects/WoCombo/app/src/main/res/layout/fragment_schedule_list.xml" value="0.18645833333333334" />
+        <entry key="..\:/Users/Sebek/StudioProjects/WoCombo/app/src/main/res/layout/fragment_transmission_list.xml" value="0.13949275362318841" />
+        <entry key="..\:/Users/Sebek/StudioProjects/WoCombo/app/src/main/res/layout/login_fragment.xml" value="0.25" />
+        <entry key="..\:/Users/Sebek/StudioProjects/WoCombo/app/src/main/res/layout/schedule_list_fragment.xml" value="0.1480978260869565" />
+        <entry key="..\:/Users/Sebek/StudioProjects/WoCombo/app/src/main/res/menu/appbar_menu.xml" value="0.1" />
+        <entry key="..\:/Users/Sebek/StudioProjects/WoCombo/app/src/main/res/menu/bottom_nav_menu.xml" value="0.18645833333333334" />
+        <entry key="..\:/Users/Sebek/StudioProjects/WoCombo/app/src/main/res/menu/draver_menu.xml" value="0.18645833333333334" />
         <entry key="..\:/Users/Sebek/StudioProjects/WoCombo/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.20260416666666667" />
       </map>
     </option>
