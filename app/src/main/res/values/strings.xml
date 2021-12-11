@@ -14,13 +14,14 @@
     <string name="notification">Notifications</string>
     <string name="sort_date_desc">Sort Desc</string>
     <string name="sort_date_asc">Sort Asc</string>
-    <string name="info_filter_not_ready">Filters_not_ready_yet!</string>
+    <string name="info_filter_not_ready">Filters not ready yet!</string>
     <string name="info_notification_not_ready">Notifications not ready yet!</string>
     <string name="about">About</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="exit_app_question">Do you want to exit from App?</string>
     <string name="exit_title">EXIT</string>
+    <string name="about_app_description">WoCombo player application was created for the recruitment process of DAZN company</string>
+    <string name="example_user">Jan Kowalski</string>
+    <string name="example_subs_desc">Subscription: 1 year</string>
 </resources>

@@ -12,6 +12,10 @@ import com.example.wocombo.core.domain.usecases.DownloadEventsUseCase
 import com.example.wocombo.core.domain.usecases.DownloadSchedulesUseCase
 import com.example.wocombo.core.domain.usecases.LoginUseCase
 import com.example.wocombo.core.presentation.ui.login.LoginViewModel
+import com.example.wocombo.core.presentation.ui.stream.StreamViewModel
+import com.example.wocombo.core.presentation.ui.transmissionlist.TransmissionListViewModel
+import com.example.wocombo.core.presentation.ui.transmissionlist.events.EventListViewModel
+import com.example.wocombo.core.presentation.ui.transmissionlist.schedules.ScheduleListViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -19,7 +23,10 @@ val coreModule = module {
 
     /* VIEWMODEL */
     viewModel { LoginViewModel(get()) }
-    viewModel { ChooseEupViewModel(get(), get(), get()) }
+    viewModel { StreamViewModel() }
+    viewModel { EventListViewModel() }
+    viewModel { ScheduleListViewModel() }
+    viewModel { TransmissionListViewModel() }
 
     /*USECASE*/
     single { DownloadSchedulesUseCase(get()) }

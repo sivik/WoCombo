@@ -5,7 +5,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.wocombo.core.presentation.ui.transmissionlist.events.EventListFragment
 import com.example.wocombo.core.presentation.ui.transmissionlist.schedules.ScheduleListFragment
 
-class CarrierViewPagerAdapter(transmissionListFragment: TransmissionListFragment) :
+class TransmissionListAdapter(transmissionListFragment: TransmissionListFragment) :
     FragmentStateAdapter(transmissionListFragment) {
 
 

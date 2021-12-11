@@ -34,7 +34,7 @@ class AppNavigation : BaseNavigation {
         navController?.navigate(R.id.action_navigation_transmission_list_to_streamFragment, bundle)
     }
 
-    override fun openAbout() {
+    override fun openAboutApp() {
         Log.d(LoggerTags.NAVIGATOR, "Navigate from transmission list to about app")
         navController?.navigate(R.id.action_navigation_transmission_list_to_aboutFragment)
     }

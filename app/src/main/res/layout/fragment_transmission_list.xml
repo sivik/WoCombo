@@ -47,5 +47,5 @@
         app:itemTextColor="@color/colorMenu"
         app:itemIconTint="@color/colorMenu"
         app:headerLayout="@layout/nav_header_main"
-        app:menu="@menu/drawer_menu" />
+        app:menu="@menu/draver_menu" />
 </androidx.drawerlayout.widget.DrawerLayout>

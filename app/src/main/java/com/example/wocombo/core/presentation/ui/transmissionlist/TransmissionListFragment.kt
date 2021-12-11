@@ -21,6 +21,7 @@ import com.example.wocombo.core.presentation.enums.SortType
 import com.example.wocombo.core.presentation.helpers.MenuItemsContainer
 import com.example.wocombo.databinding.FragmentTransmissionListBinding
 import com.google.android.material.navigation.NavigationView
+import com.maxkeppeler.sheets.core.SheetStyle
 import com.maxkeppeler.sheets.info.InfoSheet
 import de.mateware.snacky.Snacky
 import org.koin.android.ext.android.inject
@@ -65,25 +66,20 @@ class TransmissionListFragment : Fragment(), NavigationView.OnNavigationItemSele
     }
 
     private fun prepareAdapter() {
-        val carrierPagerAdapter = CarrierViewPagerAdapter(this)
+        val carrierPagerAdapter = TransmissionListAdapter(this)
         binding.vp2TransmissionList.adapter = carrierPagerAdapter
         binding.vp2TransmissionList.reduceDragSensitivity()
         binding.vp2TransmissionList.registerOnPageChangeCallback(vp2Callback)
     }
 
     private fun prepareBottomNavigation() {
-        binding.bottomNavigationView.setOnItemReselectedListener {
+        binding.bottomNavigationView.setOnNavigationItemSelectedListener {
             binding.vp2TransmissionList.currentItem = when (it.itemId) {
-                R.id.navigation_events -> {
-                    actionBar?.title = getString(R.string.title_events)
-                    0
-                }
-                R.id.navigation_schedule -> {
-                    actionBar?.title = getString(R.string.title_schedule)
-                    1
-                }
+                R.id.navigation_events -> 0
+                R.id.navigation_schedule -> 1
                 else -> 0
             }
+            true
         }
     }
 
@@ -118,7 +114,6 @@ class TransmissionListFragment : Fragment(), NavigationView.OnNavigationItemSele
         binding.navView.setNavigationItemSelectedListener(this)
         binding.drawerLayout.addDrawerListener(drawerToggle)
         drawerToggle.syncState()
-
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -217,11 +212,13 @@ class TransmissionListFragment : Fragment(), NavigationView.OnNavigationItemSele
     }
 
     private fun showExitDialog() {
+        val ctx = requireContext()
         InfoSheet().show(requireContext()) {
-            title(getString(R.string.exit_title))
-            content(getString(R.string.exit_app_question))
-            onNegative(getString(R.string.no))
-            onPositive(getString(R.string.yes)) { exitProcess(0) }
+            style(SheetStyle.DIALOG)
+            title(ctx.getString(R.string.exit_title))
+            content(ctx.getString(R.string.exit_app_question))
+            onNegative(ctx.getString(R.string.no))
+            onPositive(ctx.getString(R.string.yes)) { exitProcess(0) }
         }
     }
 }
