@@ -26,14 +26,6 @@ class AppNavigation : BaseNavigation {
         navController?.navigate(R.id.action_loginFragment_to_navigation_transmission_list)
     }
 
-    override fun openStream(url: String) {
-        Log.d(LoggerTags.NAVIGATOR, "Navigate from transmission list to video stream")
-        val bundle = bundleOf(
-            Pair(NavigationConst.VIDEO_URL, url)
-        )
-        navController?.navigate(R.id.action_navigation_transmission_list_to_streamFragment, bundle)
-    }
-
     override fun openAboutApp() {
         Log.d(LoggerTags.NAVIGATOR, "Navigate from transmission list to about app")
         navController?.navigate(R.id.action_navigation_transmission_list_to_aboutFragment)
@@ -41,8 +33,10 @@ class AppNavigation : BaseNavigation {
 
     override fun openPlayback(title: String, videoUrl: String) {
         Log.d(LoggerTags.NAVIGATOR, "Navigate from event list to playback app")
-        navController?.navigate(R.id.action_navigation_transmission_list_to_aboutFragment)
+        val bundle = bundleOf(
+            Pair(NavigationConst.VIDEO_URL, videoUrl),
+            Pair(NavigationConst.VIDEO_TITLE, videoUrl)
+        )
+        navController?.navigate(R.id.action_navigation_transmission_list_to_streamFragment, bundle)
     }
-
-
 }

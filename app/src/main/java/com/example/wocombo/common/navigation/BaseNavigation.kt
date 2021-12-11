@@ -12,8 +12,6 @@ interface BaseNavigation {
 
     fun openTransmissionList()
 
-    fun openStream(url: String)
-
     fun openAboutApp()
 
     fun openPlayback(title: String, videoUrl: String)

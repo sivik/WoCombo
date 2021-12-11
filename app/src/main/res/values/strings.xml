@@ -41,4 +41,5 @@
     <string name="state_icon_desc_content">state_icon_desc_content</string>
     <string name="err_no_internet_title">No internet</string>
     <string name="err_no_unknown_state_title">Error!</string>
+    <string name="err_cannot_play_video">Cannot play video! Try Again!</string>
 </resources>
