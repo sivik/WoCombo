@@ -16,4 +16,6 @@ interface BaseNavigation {
 
     fun openAboutApp()
 
+    fun openPlayback(title: String, videoUrl: String)
+
 }

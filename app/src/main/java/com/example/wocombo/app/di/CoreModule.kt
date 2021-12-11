@@ -12,7 +12,7 @@ import com.example.wocombo.core.domain.usecases.DownloadEventsUseCase
 import com.example.wocombo.core.domain.usecases.DownloadSchedulesUseCase
 import com.example.wocombo.core.domain.usecases.LoginUseCase
 import com.example.wocombo.core.presentation.ui.login.LoginViewModel
-import com.example.wocombo.core.presentation.ui.stream.StreamViewModel
+import com.example.wocombo.core.presentation.ui.playback.PlaybackViewModel
 import com.example.wocombo.core.presentation.ui.transmissionlist.TransmissionListViewModel
 import com.example.wocombo.core.presentation.ui.transmissionlist.events.EventListViewModel
 import com.example.wocombo.core.presentation.ui.transmissionlist.schedules.ScheduleListViewModel
@@ -23,8 +23,8 @@ val coreModule = module {
 
     /* VIEWMODEL */
     viewModel { LoginViewModel(get()) }
-    viewModel { StreamViewModel() }
-    viewModel { EventListViewModel() }
+    viewModel { PlaybackViewModel() }
+    viewModel { EventListViewModel(get()) }
     viewModel { ScheduleListViewModel() }
     viewModel { TransmissionListViewModel() }
 

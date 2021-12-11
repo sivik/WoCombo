@@ -44,7 +44,7 @@ class DownloadEventsUseCase(
         Result(failure = CommunicationsFailures.NoInternetFailure)
     } catch (e: DownloadEventsException) {
         logUseCaseError(e, javaClass.simpleName)
-        Result(failure = EventFailures.InternalServerFailure)
+        Result(failure = EventFailures.DownloadEventsFailure)
     } catch (e: Exception) {
         logUseCaseError(e, javaClass.simpleName)
         Result(failure = Failure.UnknownFailure)

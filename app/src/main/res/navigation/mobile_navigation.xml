@@ -8,11 +8,11 @@
     <fragment
         android:id="@+id/navigation_transmission_list"
         android:name="com.example.wocombo.core.presentation.ui.transmissionlist.TransmissionListFragment"
-        android:label=""
+        android:label="Transmissions"
         tools:layout="@layout/fragment_transmission_list" >
         <action
             android:id="@+id/action_navigation_transmission_list_to_streamFragment"
-            app:destination="@id/streamFragment" />
+            app:destination="@id/playbackFragment" />
         <action
             android:id="@+id/action_navigation_transmission_list_to_aboutFragment"
             app:destination="@id/aboutFragment" />
@@ -28,10 +28,10 @@
             app:destination="@id/navigation_transmission_list" />
     </fragment>
     <fragment
-        android:id="@+id/streamFragment"
-        android:name="com.example.wocombo.core.presentation.ui.stream.StreamFragment"
+        android:id="@+id/playbackFragment"
+        android:name="com.example.wocombo.core.presentation.ui.playback.PlaybackFragment"
         android:label="fragment_stream"
-        tools:layout="@layout/fragment_stream" />
+        tools:layout="@layout/fragment_playback" />
     <fragment
         android:id="@+id/aboutFragment"
         android:name="com.example.wocombo.core.presentation.ui.about.AboutFragment"

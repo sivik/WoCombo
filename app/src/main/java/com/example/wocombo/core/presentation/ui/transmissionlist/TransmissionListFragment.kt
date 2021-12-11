@@ -213,7 +213,7 @@ class TransmissionListFragment : Fragment(), NavigationView.OnNavigationItemSele
 
     private fun showExitDialog() {
         val ctx = requireContext()
-        InfoSheet().show(requireContext()) {
+        InfoSheet().show(ctx) {
             style(SheetStyle.DIALOG)
             title(ctx.getString(R.string.exit_title))
             content(ctx.getString(R.string.exit_app_question))

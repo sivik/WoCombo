@@ -39,5 +39,10 @@ class AppNavigation : BaseNavigation {
         navController?.navigate(R.id.action_navigation_transmission_list_to_aboutFragment)
     }
 
+    override fun openPlayback(title: String, videoUrl: String) {
+        Log.d(LoggerTags.NAVIGATOR, "Navigate from event list to playback app")
+        navController?.navigate(R.id.action_navigation_transmission_list_to_aboutFragment)
+    }
+
 
 }

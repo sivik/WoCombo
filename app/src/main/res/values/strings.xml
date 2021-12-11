@@ -24,4 +24,21 @@
     <string name="about_app_description">WoCombo player application was created for the recruitment process of DAZN company</string>
     <string name="example_user">Jan Kowalski</string>
     <string name="example_subs_desc">Subscription: 1 year</string>
+    <string name="transmission_image">transmission_image</string>
+    <string name="remaining_one_day">" (1 day)"</string>
+    <string name="remaining_more_days">" (%d days)"</string>
+    <string name="remaining_more_min">" (%d min)"</string>
+    <string name="remaining_one_hour">" (1 hour)"</string>
+    <string name="remaining_two_hours_more">" (%d hours)"</string>
+    <string name="remaining_more_hours">" (%d hours)"</string>
+    <string name="real_time_date">Transmission: %s</string>
+    <string name="err_unknown_failure">Oops! Something went wrong. Please try again!</string>
+    <string name="err_internal_server_failure">A server error has occurred. Please try again later.</string>
+    <string name="err_timeout_failure">There was an error connecting to the server. Please try again later!</string>
+    <string name="err_no_internet_failure">No internet connection. Check your connection status and try again!</string>
+    <string name="download_progres_desc">Download in progress please wait</string>
+    <string name="download_progress_title">Downloading</string>
+    <string name="state_icon_desc_content">state_icon_desc_content</string>
+    <string name="err_no_internet_title">No internet</string>
+    <string name="err_no_unknown_state_title">Error!</string>
 </resources>
