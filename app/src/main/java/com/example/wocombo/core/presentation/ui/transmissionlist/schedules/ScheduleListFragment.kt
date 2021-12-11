@@ -5,9 +5,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.wocombo.R
 import com.example.wocombo.app.services.ServiceManager
 import com.example.wocombo.common.broadcast.ScheduleBroadcastConst
@@ -82,6 +84,7 @@ class ScheduleListFragment : Fragment() {
         binding.rvScheduleList.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = ScheduleListAdapter(LinkedList())
+            adapter?.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.ALLOW
         }
     }
 
@@ -106,19 +109,32 @@ class ScheduleListFragment : Fragment() {
             response.failure?.let { failure ->
                 val error = when (failure) {
 
-                    is CommunicationsFailures.ConnectionFailure ->
+                    is CommunicationsFailures.ConnectionFailure ->{
+                        showScheduleViewState(InfoViewState.ERROR)
                         getString(R.string.err_timeout_failure)
+                    }
 
-                    is CommunicationsFailures.NoInternetFailure ->
+                    is CommunicationsFailures.NoInternetFailure -> {
+                        showScheduleViewState(InfoViewState.NO_INTERNET)
                         getString(R.string.err_no_internet_failure)
+                    }
 
                     in listOf(
                         CommunicationsFailures.InternalServerFailure,
                         ScheduleFailures.DownloadSchedulesFailure
-                    ) -> getString(R.string.err_internal_server_failure)
+                    ) -> {
+                        showScheduleViewState(InfoViewState.ERROR)
+                        getString(R.string.err_internal_server_failure)
+                    }
 
-                    is Failure.UnknownFailure -> { getString(R.string.err_unknown_failure) }
-                    else -> { getString(R.string.err_unknown_failure) }
+                    is Failure.UnknownFailure -> {
+                        showScheduleViewState(InfoViewState.ERROR)
+                        getString(R.string.err_unknown_failure)
+                    }
+                    else -> {
+                        showScheduleViewState(InfoViewState.ERROR)
+                        getString(R.string.err_unknown_failure)
+                    }
                 }
                 Snacky.builder()
                     .setActivity(requireActivity())
@@ -131,7 +147,7 @@ class ScheduleListFragment : Fragment() {
     }
 
     private fun showScheduleViewState(viewState: InfoViewState) {
-        when(viewState){
+        when (viewState) {
             InfoViewState.SHOW_ELEMENTS -> {
                 binding.rvScheduleList.visibility = View.VISIBLE
                 binding.clStateContainer.visibility = View.GONE
@@ -141,6 +157,9 @@ class ScheduleListFragment : Fragment() {
                 binding.rvScheduleList.visibility = View.GONE
                 binding.clLoadingContainer.visibility = View.GONE
                 binding.clStateContainer.visibility = View.VISIBLE
+                binding.ivStateIcon.setImageDrawable(
+                    ContextCompat.getDrawable(requireContext(), R.drawable.ic_no_internet_conn)
+                )
                 binding.tvStateTitle.text = getString(R.string.err_no_internet_title)
                 binding.tvStateDescription.text = getString(R.string.err_no_internet_failure)
             }
@@ -149,10 +168,13 @@ class ScheduleListFragment : Fragment() {
                 binding.clStateContainer.visibility = View.GONE
                 binding.clLoadingContainer.visibility = View.VISIBLE
             }
-            InfoViewState.ERROR ->  {
+            InfoViewState.ERROR -> {
                 binding.rvScheduleList.visibility = View.GONE
                 binding.clLoadingContainer.visibility = View.GONE
                 binding.clStateContainer.visibility = View.VISIBLE
+                binding.ivStateIcon.setImageDrawable(
+                    ContextCompat.getDrawable(requireContext(), R.drawable.ic_error)
+                )
                 binding.tvStateTitle.text = getString(R.string.err_no_unknown_state_title)
                 binding.tvStateDescription.text = getString(R.string.err_unknown_failure)
             }

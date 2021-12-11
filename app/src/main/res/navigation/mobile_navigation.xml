@@ -21,7 +21,7 @@
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.example.wocombo.core.presentation.ui.login.LoginFragment"
-        android:label="login_fragment"
+        android:label="Login"
         tools:layout="@layout/fragment_login" >
         <action
             android:id="@+id/action_loginFragment_to_navigation_transmission_list"

@@ -53,6 +53,7 @@ class TransmissionListFragment : Fragment(), NavigationView.OnNavigationItemSele
         savedInstanceState: Bundle?
     ) = binding.root
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         prepareActionBar()
         prepareDrawerLayout()
@@ -61,9 +62,9 @@ class TransmissionListFragment : Fragment(), NavigationView.OnNavigationItemSele
         super.onViewCreated(view, savedInstanceState)
     }
 
-    override fun onDestroy() {
+    override fun onStop() {
         binding.vp2TransmissionList.unregisterOnPageChangeCallback(vp2Callback)
-        super.onDestroy()
+        super.onStop()
     }
 
     private fun prepareAdapter() {
@@ -98,7 +99,7 @@ class TransmissionListFragment : Fragment(), NavigationView.OnNavigationItemSele
     }
 
     private fun prepareDrawerLayout() {
-        requireActivity().onBackPressedDispatcher.addCallback(requireActivity()) {
+        requireActivity().onBackPressedDispatcher.addCallback(this) {
             if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
                 binding.drawerLayout.closeDrawer(GravityCompat.START)
             } else {

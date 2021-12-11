@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.wocombo.R
@@ -86,19 +87,32 @@ class EventListFragment : Fragment() {
             response.failure?.let { failure ->
                 val error = when (failure) {
 
-                    is CommunicationsFailures.ConnectionFailure ->
+                    is CommunicationsFailures.ConnectionFailure -> {
+                        showEventViewState(InfoViewState.ERROR)
                         getString(R.string.err_timeout_failure)
+                    }
 
-                    is CommunicationsFailures.NoInternetFailure ->
+                    is CommunicationsFailures.NoInternetFailure ->{
+                        showEventViewState(InfoViewState.NO_INTERNET)
                         getString(R.string.err_no_internet_failure)
+                    }
 
                     in listOf(
                         CommunicationsFailures.InternalServerFailure,
                         EventFailures.DownloadEventsFailure
-                    ) -> getString(R.string.err_internal_server_failure)
+                    ) ->{
+                        showEventViewState(InfoViewState.ERROR)
+                        getString(R.string.err_internal_server_failure)
+                    }
 
-                    is Failure.UnknownFailure -> { getString(R.string.err_unknown_failure) }
-                    else -> { getString(R.string.err_unknown_failure) }
+                    is Failure.UnknownFailure -> {
+                        showEventViewState(InfoViewState.ERROR)
+                        getString(R.string.err_unknown_failure)
+                    }
+                    else -> {
+                        showEventViewState(InfoViewState.ERROR)
+                        getString(R.string.err_unknown_failure)
+                    }
                 }
                 Snacky.builder()
                     .setActivity(requireActivity())
@@ -121,6 +135,9 @@ class EventListFragment : Fragment() {
                 binding.rvEventList.visibility = View.GONE
                 binding.clLoadingContainer.visibility = View.GONE
                 binding.clStateContainer.visibility = View.VISIBLE
+                binding.ivStateIcon.setImageDrawable(
+                    ContextCompat.getDrawable(requireContext(), R.drawable.ic_no_internet_conn)
+                )
                 binding.tvStateTitle.text = getString(R.string.err_no_internet_title)
                 binding.tvStateDescription.text = getString(R.string.err_no_internet_failure)
             }
@@ -133,6 +150,9 @@ class EventListFragment : Fragment() {
                 binding.rvEventList.visibility = View.GONE
                 binding.clLoadingContainer.visibility = View.GONE
                 binding.clStateContainer.visibility = View.VISIBLE
+                binding.ivStateIcon.setImageDrawable(
+                    ContextCompat.getDrawable(requireContext(), R.drawable.ic_error)
+                )
                 binding.tvStateTitle.text = getString(R.string.err_no_unknown_state_title)
                 binding.tvStateDescription.text = getString(R.string.err_unknown_failure)
             }
