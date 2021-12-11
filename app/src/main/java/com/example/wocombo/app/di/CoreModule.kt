@@ -1,5 +1,6 @@
 package com.example.wocombo.app.di
 
+import com.example.wocombo.common.broadcast.ScheduleBroadcastManager
 import com.example.wocombo.core.data.adapters.remote.datasource.EventsRemoteDataSourceImpl
 import com.example.wocombo.core.data.adapters.remote.datasource.ScheduleRemoteDataSourceImpl
 import com.example.wocombo.core.data.datasources.remote.EventsRemoteDataSource
@@ -21,7 +22,7 @@ import org.koin.dsl.module
 
 val coreModule = module {
 
-    /* VIEWMODEL */
+    /*VIEWMODEL*/
     viewModel { LoginViewModel(get()) }
     viewModel { PlaybackViewModel() }
     viewModel { EventListViewModel(get()) }
@@ -40,5 +41,8 @@ val coreModule = module {
     /*DATASOURCE*/
     single<EventsRemoteDataSource> { EventsRemoteDataSourceImpl(get()) }
     single<ScheduleRemoteDataSource> { ScheduleRemoteDataSourceImpl(get()) }
+
+    /*BROADCAST*/
+    single { ScheduleBroadcastManager() }
 
 }

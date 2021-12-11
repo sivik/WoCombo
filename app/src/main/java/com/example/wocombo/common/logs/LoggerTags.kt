@@ -5,4 +5,5 @@ object LoggerTags {
     const val EVENT = "EVENT"
     const val NAVIGATOR = "NAVIGATOR"
     const val VIDEO = "VIDEO"
+    const val DOWNLOAD_SCHEDULE_SERVICE = "DOWNLOAD_SCHEDULE_SERVICE"
 }

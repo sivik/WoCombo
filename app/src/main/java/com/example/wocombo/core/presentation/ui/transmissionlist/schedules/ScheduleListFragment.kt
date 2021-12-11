@@ -1,15 +1,21 @@
 package com.example.wocombo.core.presentation.ui.transmissionlist.schedules
 
+import android.content.IntentFilter
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.wocombo.R
+import com.example.wocombo.app.services.ServiceManager
+import com.example.wocombo.common.broadcast.ScheduleBroadcastConst
+import com.example.wocombo.common.broadcast.ScheduleReceiver
 import com.example.wocombo.common.extensions.viewInflateBinding
 import com.example.wocombo.common.functional.Failure
 import com.example.wocombo.common.functional.observe
+import com.example.wocombo.common.navigation.BaseNavigation
 import com.example.wocombo.core.domain.errors.CommunicationsFailures
 import com.example.wocombo.core.domain.errors.ScheduleFailures
 import com.example.wocombo.core.domain.usecases.DownloadSchedulesUseCase
@@ -18,6 +24,7 @@ import com.example.wocombo.core.presentation.ui.transmissionlist.TransmissionLis
 import com.example.wocombo.core.presentation.ui.transmissionlist.schedules.adapter.ScheduleListAdapter
 import com.example.wocombo.databinding.FragmentScheduleListBinding
 import de.mateware.snacky.Snacky
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.*
@@ -26,7 +33,13 @@ class ScheduleListFragment : Fragment() {
 
     private val binding by viewInflateBinding(FragmentScheduleListBinding::inflate)
     private val vm: ScheduleListViewModel by viewModel()
+    private val navigation: BaseNavigation by inject()
     private val parentVm by sharedViewModel<TransmissionListViewModel>()
+
+    /*Aktualnie lepszym i zalecanym rozwiązaniem byłoby użycie work managera*/
+    private val scheduleBroadcastReceiver = ScheduleReceiver { schedules ->
+        (binding.rvScheduleList.adapter as? ScheduleListAdapter)?.update(schedules)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         observe(vm.scheduleLiveData, ::handleScheduleListDownload)
@@ -44,6 +57,20 @@ class ScheduleListFragment : Fragment() {
         initAdapter()
         initSwipeListener()
         downloadSchedules()
+    }
+
+    override fun onResume() {
+        val filter = IntentFilter(ScheduleBroadcastConst.SCHEDULE_INTENT)
+        LocalBroadcastManager.getInstance(requireActivity())
+            .registerReceiver(scheduleBroadcastReceiver, filter)
+        ServiceManager.startDownloadService(requireActivity(), navigation)
+        super.onResume()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        LocalBroadcastManager.getInstance(requireActivity())
+            .unregisterReceiver(scheduleBroadcastReceiver)
     }
 
     private fun downloadSchedules() {

@@ -14,6 +14,7 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.example.wocombo.R
 import com.example.wocombo.app.MainActivity
+import com.example.wocombo.app.services.ServiceManager
 import com.example.wocombo.common.extensions.reduceDragSensitivity
 import com.example.wocombo.common.extensions.viewInflateBinding
 import com.example.wocombo.common.navigation.BaseNavigation

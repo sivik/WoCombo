@@ -9,6 +9,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.wocombo.R
+import com.example.wocombo.app.services.ServiceManager
 import com.example.wocombo.databinding.ActivityMainBinding
 import com.example.wocombo.common.extensions.viewInflateBinding
 import com.example.wocombo.common.navigation.BackPressFragment
@@ -40,5 +41,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onSupportNavigateUp() = findNavController(R.id.nav_host_fragment_activity_main).navigateUp()
+
+    override fun onDestroy() {
+        ServiceManager.stopDownloadService(this)
+        super.onDestroy()
+    }
 
 }

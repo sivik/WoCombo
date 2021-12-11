@@ -7,19 +7,31 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.MediaController
+import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import com.example.wocombo.R
 import com.example.wocombo.app.MainActivity
 import com.example.wocombo.common.extensions.AppBarHelper
 import com.example.wocombo.common.extensions.viewInflateBinding
 import com.example.wocombo.common.logs.LoggerTags
+import com.example.wocombo.common.navigation.BaseNavigation
 import com.example.wocombo.common.navigation.NavigationConst
 import com.example.wocombo.databinding.FragmentPlaybackBinding
 import de.mateware.snacky.Snacky
+import org.koin.android.ext.android.inject
 
 class PlaybackFragment : Fragment() {
 
     private val binding by viewInflateBinding(FragmentPlaybackBinding::inflate)
+
+    private val navigation: BaseNavigation by inject()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        requireActivity().onBackPressedDispatcher.addCallback(this) {
+            navigation.popBackStack()
+        }
+        super.onCreate(savedInstanceState)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

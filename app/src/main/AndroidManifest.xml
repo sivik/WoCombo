@@ -14,6 +14,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.WoCombo">
+        <service android:name=".app.services.DownloadScheduleService" />
+
         <activity
             android:name=".app.MainActivity"
             android:exported="true"
