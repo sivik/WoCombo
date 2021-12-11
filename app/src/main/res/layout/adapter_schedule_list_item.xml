@@ -10,7 +10,7 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/cv_event_card"
+        android:id="@+id/cv_schedule_card"
         android:elevation="3dp"
         app:cardCornerRadius="6dp"
         app:cardElevation="4dp"
@@ -22,7 +22,7 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:id="@+id/iv_event_image"
+                android:id="@+id/iv_schedule_image"
                 android:layout_width="72dp"
                 android:layout_height="72dp"
                 android:layout_gravity="center"

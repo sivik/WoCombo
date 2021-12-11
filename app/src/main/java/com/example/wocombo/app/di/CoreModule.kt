@@ -25,7 +25,7 @@ val coreModule = module {
     viewModel { LoginViewModel(get()) }
     viewModel { PlaybackViewModel() }
     viewModel { EventListViewModel(get()) }
-    viewModel { ScheduleListViewModel() }
+    viewModel { ScheduleListViewModel(get()) }
     viewModel { TransmissionListViewModel() }
 
     /*USECASE*/

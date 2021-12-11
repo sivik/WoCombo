@@ -18,7 +18,7 @@ fun TextView.getSpannableDateWithPeriodText(
 
     val dateText = context.getString(
         prefix,
-        dateTime.toString(DateTimePatterns.SHORT_SLASH)
+        dateTime.toString(DateTimePatterns.DOT_DATE_TIME)
     )
 
     val fcs = ForegroundColorSpan(Color.rgb(158, 0, 0))
@@ -28,13 +28,15 @@ fun TextView.getSpannableDateWithPeriodText(
 
     val remainingText = try {
         when (val days = period.toStandardDays().days) {
+            in -7..-2  -> " (In previous week)"
+            -1 -> " (Yesterday)"
             0 -> when (val hours = period.toStandardHours().hours) {
                 0 -> {
                     val minutes = period.toStandardMinutes().minutes
                     if (minutes > 0) {
                         context.getString(R.string.remaining_more_min, minutes)
                     } else {
-                        ""
+                        " (Today)"
                     }
                 }
                 1 -> context.getString(R.string.remaining_one_hour)
@@ -42,7 +44,7 @@ fun TextView.getSpannableDateWithPeriodText(
                     R.string.remaining_more_hours,
                     hours
                 )
-                else -> ""
+                else -> " (Today)"
             }
             1 -> context.getString(R.string.remaining_one_day)
             in 2..Int.MAX_VALUE -> context.getString(

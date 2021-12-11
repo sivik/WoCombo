@@ -51,7 +51,7 @@ class EventListFragment : Fragment() {
     }
 
     private fun downloadEvents() {
-        showCarrierViewState(InfoViewState.LOADING)
+        showEventViewState(InfoViewState.LOADING)
         vm.downloadEvents()
     }
 
@@ -67,7 +67,7 @@ class EventListFragment : Fragment() {
 
     private fun initSwipeListener() {
         binding.srlEventList.setOnRefreshListener {
-            showCarrierViewState(InfoViewState.LOADING)
+            showEventViewState(InfoViewState.LOADING)
             binding.srlEventList.isRefreshing = true
             downloadEvents()
         }
@@ -77,7 +77,7 @@ class EventListFragment : Fragment() {
         result?.let { response ->
             binding.srlEventList.isRefreshing = false
             response.events?.let { events ->
-                showCarrierViewState(InfoViewState.SHOW_ELEMENTS)
+                showEventViewState(InfoViewState.SHOW_ELEMENTS)
                 (binding.rvEventList.adapter as EventListAdapter).update(events)
 
                 //todo posortowac zgodnie z parentVm.sortLiveData
@@ -110,7 +110,7 @@ class EventListFragment : Fragment() {
         }
     }
 
-    private fun showCarrierViewState(viewState: InfoViewState) {
+    private fun showEventViewState(viewState: InfoViewState) {
         when(viewState){
             InfoViewState.SHOW_ELEMENTS -> {
                 binding.rvEventList.visibility = View.VISIBLE

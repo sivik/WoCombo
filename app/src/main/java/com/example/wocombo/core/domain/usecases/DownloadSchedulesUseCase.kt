@@ -44,7 +44,7 @@ class DownloadSchedulesUseCase(
         Result(failure = CommunicationsFailures.NoInternetFailure)
     } catch (e: DownloadSchedulesException) {
         logUseCaseError(e, javaClass.simpleName)
-        Result(failure = ScheduleFailures.InternalServerFailure)
+        Result(failure = ScheduleFailures.DownloadSchedulesFailure)
     } catch (e: Exception) {
         logUseCaseError(e, javaClass.simpleName)
         Result(failure = Failure.UnknownFailure)

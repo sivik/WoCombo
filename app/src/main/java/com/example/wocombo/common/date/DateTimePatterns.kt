@@ -8,5 +8,6 @@ object DateTimePatterns {
     const val SHORT_DASH = "dd-MM-yyyy HH:mm"
     const val SHORT_DASH_DAY = "dd-MM-yyyy"
     const val SHORT_SLASH = "dd/MM/yy HH:mm"
+    const val DOT_DATE_TIME = "dd.MM.YYYY HH:mm"
     const val TIME = "HH:mm"
 }
