@@ -35,7 +35,7 @@ class AppNavigation : BaseNavigation {
         Log.d(LoggerTags.NAVIGATOR, "Navigate from event list to playback")
         val bundle = bundleOf(
             Pair(NavigationConst.VIDEO_URL, videoUrl),
-            Pair(NavigationConst.VIDEO_TITLE, videoUrl)
+            Pair(NavigationConst.VIDEO_TITLE, title)
         )
         navController?.navigate(R.id.action_navigation_transmission_list_to_streamFragment, bundle)
     }

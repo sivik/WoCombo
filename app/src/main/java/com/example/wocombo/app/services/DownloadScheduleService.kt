@@ -25,7 +25,7 @@ class DownloadScheduleService : KoinComponent, Service() {
         Log.d(LoggerTags.DOWNLOAD_SCHEDULE_SERVICE, "Start Download schedule service")
         job = CoroutineScope(Dispatchers.IO).launch {
             while (true) {
-                delay(3000)
+                delay(30000)
                 handleSchedulesFromServer()
             }
         }

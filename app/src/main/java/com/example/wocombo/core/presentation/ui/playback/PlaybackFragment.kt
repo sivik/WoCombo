@@ -46,8 +46,13 @@ class PlaybackFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initActionBar()
         initVideoView()
+        setVideoTitle()
         initComments()
         super.onViewCreated(view, savedInstanceState)
+    }
+
+    private fun setVideoTitle(){
+        binding.tvTitle.text = arguments?.getString(NavigationConst.VIDEO_TITLE) ?: ""
     }
 
     private fun initComments() {

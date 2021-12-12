@@ -29,8 +29,6 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
                 android:contentDescription="@string/transmission_image"
-                app:layout_constraintStart_toEndOf="@+id/tv_waste_code"
-                app:layout_constraintTop_toBottomOf="@+id/tv_status"
                 tools:src="@tools:sample/avatars" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
