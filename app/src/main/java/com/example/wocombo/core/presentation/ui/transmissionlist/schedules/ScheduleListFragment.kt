@@ -38,9 +38,14 @@ class ScheduleListFragment : Fragment() {
     private val navigation: BaseNavigation by inject()
     private val parentVm by sharedViewModel<TransmissionListViewModel>()
 
-    /*Aktualnie lepszym i zalecanym rozwiązaniem byłoby użycie work managera*/
+    /*Aktualnie lepszym i zalecanym rozwiązaniem byłoby użycie Work Manager niż Background Service + Broadcast */
     private val scheduleBroadcastReceiver = ScheduleReceiver { schedules ->
-        updateScheduleList(schedules)
+        val sortedList = when (parentVm.sortLiveData.value) {
+            SortType.ASCENDING -> schedules.sortedBy { it.date.millis }
+            SortType.DESCENDING -> schedules.sortedByDescending { it.date.millis }
+            null -> schedules.sortedBy { it.date.millis }
+        }
+        updateScheduleList(sortedList)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -78,7 +83,7 @@ class ScheduleListFragment : Fragment() {
 
     private fun downloadSchedules() {
         showScheduleViewState(InfoViewState.LOADING)
-        vm.downloadSchedules(parentVm.sortLiveData.value?: SortType.ASCENDING)
+        vm.downloadSchedules(parentVm.sortLiveData.value ?: SortType.ASCENDING)
     }
 
     private fun initAdapter() {
