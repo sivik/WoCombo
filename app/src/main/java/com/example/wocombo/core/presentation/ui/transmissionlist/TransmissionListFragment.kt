@@ -62,6 +62,11 @@ class TransmissionListFragment : Fragment(), NavigationView.OnNavigationItemSele
         super.onViewCreated(view, savedInstanceState)
     }
 
+    override fun onResume() {
+        binding.vp2TransmissionList.registerOnPageChangeCallback(vp2Callback)
+        super.onResume()
+    }
+
     override fun onStop() {
         binding.vp2TransmissionList.unregisterOnPageChangeCallback(vp2Callback)
         super.onStop()
@@ -71,7 +76,6 @@ class TransmissionListFragment : Fragment(), NavigationView.OnNavigationItemSele
         val carrierPagerAdapter = TransmissionListAdapter(this)
         binding.vp2TransmissionList.adapter = carrierPagerAdapter
         binding.vp2TransmissionList.reduceDragSensitivity()
-        binding.vp2TransmissionList.registerOnPageChangeCallback(vp2Callback)
     }
 
     private fun prepareBottomNavigation() {
