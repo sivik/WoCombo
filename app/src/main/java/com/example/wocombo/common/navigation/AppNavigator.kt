@@ -32,11 +32,16 @@ class AppNavigation : BaseNavigation {
     }
 
     override fun openPlayback(title: String, videoUrl: String) {
-        Log.d(LoggerTags.NAVIGATOR, "Navigate from event list to playback app")
+        Log.d(LoggerTags.NAVIGATOR, "Navigate from event list to playback")
         val bundle = bundleOf(
             Pair(NavigationConst.VIDEO_URL, videoUrl),
             Pair(NavigationConst.VIDEO_TITLE, videoUrl)
         )
         navController?.navigate(R.id.action_navigation_transmission_list_to_streamFragment, bundle)
+    }
+
+    override fun openRemainders() {
+        Log.d(LoggerTags.NAVIGATOR, "Navigate from transmission list to reminders")
+        navController?.navigate(R.id.action_navigation_transmission_list_to_remindersFragment)
     }
 }

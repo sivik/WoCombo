@@ -3,6 +3,7 @@ package com.example.wocombo.app
 import android.app.Application
 import com.example.wocombo.app.di.appModule
 import com.example.wocombo.app.di.coreModule
+import com.example.wocombo.app.di.databaseModule
 import com.example.wocombo.app.di.networkModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -15,7 +16,7 @@ class App: Application() {
         startKoin {
             androidLogger(Level.ERROR)
             androidContext(this@App)
-            modules(appModule, networkModule, coreModule)
+            modules(appModule, networkModule, databaseModule, coreModule)
         }
     }
 }

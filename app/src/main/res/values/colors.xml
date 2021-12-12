@@ -8,4 +8,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="colorBackground">#FFFFFFFF</color>
     <color name="colorMenu">#777777</color>
+    <color name="colorTextNoActive">#808080</color>
 </resources>

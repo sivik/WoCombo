@@ -42,4 +42,7 @@
     <string name="err_no_internet_title">No internet</string>
     <string name="err_no_unknown_state_title">Error!</string>
     <string name="err_cannot_play_video">Cannot play video! Try Again!</string>
+    <string name="successfully_delete_reminder">Successfuly delete reminder</string>
+    <string name="err_delete_reminder">Cannot delete reminder. Try again!</string>
+    <string name="delete">delete</string>
 </resources>

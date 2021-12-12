@@ -8,6 +8,8 @@ import com.bumptech.glide.Glide
 import com.example.wocombo.R
 import com.example.wocombo.common.extensions.getSpannableDateWithPeriodText
 import com.example.wocombo.core.domain.models.Event
+import com.example.wocombo.core.domain.models.Schedule
+import com.example.wocombo.core.presentation.enums.SortType
 import com.example.wocombo.databinding.AdapterEventListItemBinding
 import java.util.*
 
@@ -69,12 +71,20 @@ class EventListAdapter(
         }
     }
 
-    fun update(newEvents: List<Event>) {
+    fun update(newEvents: List<Event>, sortType: SortType) {
         val diffCallback = EventDiffCallback(LinkedList(events), LinkedList(newEvents))
         val diffResult = DiffUtil.calculateDiff(diffCallback)
+        when(sortType){
+            SortType.ASCENDING -> newEvents.sortedBy { it.date }
+            SortType.DESCENDING -> newEvents.sortedByDescending{ it.date }
+        }
         events.clear()
         events.addAll(newEvents)
         diffResult.dispatchUpdatesTo(this)
+    }
+
+    fun getEventList(): LinkedList<Event>{
+        return events
     }
 
     class EventListViewHolder(val binding: AdapterEventListItemBinding) :

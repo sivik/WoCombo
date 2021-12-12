@@ -16,4 +16,6 @@ interface BaseNavigation {
 
     fun openPlayback(title: String, videoUrl: String)
 
+    fun openRemainders()
+
 }

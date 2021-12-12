@@ -20,8 +20,10 @@ import com.example.wocombo.common.functional.observe
 import com.example.wocombo.common.navigation.BaseNavigation
 import com.example.wocombo.core.domain.errors.CommunicationsFailures
 import com.example.wocombo.core.domain.errors.ScheduleFailures
+import com.example.wocombo.core.domain.models.Schedule
 import com.example.wocombo.core.domain.usecases.DownloadSchedulesUseCase
 import com.example.wocombo.core.presentation.enums.InfoViewState
+import com.example.wocombo.core.presentation.enums.SortType
 import com.example.wocombo.core.presentation.ui.transmissionlist.TransmissionListViewModel
 import com.example.wocombo.core.presentation.ui.transmissionlist.schedules.adapter.ScheduleListAdapter
 import com.example.wocombo.databinding.FragmentScheduleListBinding
@@ -30,6 +32,7 @@ import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.*
+import kotlin.collections.ArrayList
 
 class ScheduleListFragment : Fragment() {
 
@@ -40,11 +43,12 @@ class ScheduleListFragment : Fragment() {
 
     /*Aktualnie lepszym i zalecanym rozwiązaniem byłoby użycie work managera*/
     private val scheduleBroadcastReceiver = ScheduleReceiver { schedules ->
-        (binding.rvScheduleList.adapter as? ScheduleListAdapter)?.update(schedules)
+        updateScheduleList(schedules)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         observe(vm.scheduleLiveData, ::handleScheduleListDownload)
+        observe(parentVm.sortLiveData, ::handleSortScheduleList)
         super.onCreate(savedInstanceState)
     }
 
@@ -101,15 +105,13 @@ class ScheduleListFragment : Fragment() {
             binding.srlScheduleList.isRefreshing = false
             response.scheduleList?.let { schedules ->
                 showScheduleViewState(InfoViewState.SHOW_ELEMENTS)
-                (binding.rvScheduleList.adapter as ScheduleListAdapter).update(schedules)
-
-                //todo posortowac zgodnie z parentVm.sortLiveData
+                updateScheduleList(schedules)
             }
 
             response.failure?.let { failure ->
                 val error = when (failure) {
 
-                    is CommunicationsFailures.ConnectionFailure ->{
+                    is CommunicationsFailures.ConnectionFailure -> {
                         showScheduleViewState(InfoViewState.ERROR)
                         getString(R.string.err_timeout_failure)
                     }
@@ -145,6 +147,20 @@ class ScheduleListFragment : Fragment() {
             }
         }
     }
+
+
+    private fun handleSortScheduleList(sortType: SortType?) {
+        sortType?.let {
+            val adapter = (binding.rvScheduleList.adapter as? ScheduleListAdapter)
+            adapter?.update(adapter.getScheduleList(), it)
+        }
+    }
+
+    private fun updateScheduleList(schedules: List<Schedule>) =
+        (binding.rvScheduleList.adapter as? ScheduleListAdapter)?.update(
+            schedules,
+            parentVm.sortLiveData.value ?: SortType.ASCENDING
+        )
 
     private fun showScheduleViewState(viewState: InfoViewState) {
         when (viewState) {

@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_navigation_transmission_list_to_aboutFragment"
             app:destination="@id/aboutFragment" />
+        <action
+            android:id="@+id/action_navigation_transmission_list_to_remindersFragment"
+            app:destination="@id/remindersFragment" />
     </fragment>
 
     <fragment
@@ -37,4 +40,9 @@
         android:name="com.example.wocombo.core.presentation.ui.about.AboutFragment"
         android:label="About"
         tools:layout="@layout/fragment_about" />
+    <fragment
+        android:id="@+id/remindersFragment"
+        android:name="com.example.wocombo.core.presentation.ui.reminders.RemindersFragment"
+        android:label="Reminders"
+        tools:layout="@layout/fragment_reminders" />
 </navigation>

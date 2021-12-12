@@ -147,22 +147,15 @@ class TransmissionListFragment : Fragment(), NavigationView.OnNavigationItemSele
                 }
 
                 R.id.menu_notification -> {
-                    Snacky.builder()
-                        .setActivity(requireActivity())
-                        .setText(R.string.info_notification_not_ready)
-                        .setDuration(Snacky.LENGTH_SHORT)
-                        .warning()
-                        .show()
+                    navigation.openRemainders()
                     true
                 }
                 R.id.menu_sort_date_asc -> {
-                    //todo add sorting
                     activateSortMenu(item)
                     vm.setSortType(SortType.ASCENDING)
                     true
                 }
                 R.id.menu_sort_date_desc -> {
-                    //todo add sorting
                     activateSortMenu(item)
                     vm.setSortType(SortType.DESCENDING)
                     true

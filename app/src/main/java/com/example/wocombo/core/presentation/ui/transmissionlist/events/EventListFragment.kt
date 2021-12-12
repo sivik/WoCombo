@@ -14,10 +14,14 @@ import com.example.wocombo.common.functional.observe
 import com.example.wocombo.common.navigation.BaseNavigation
 import com.example.wocombo.core.domain.errors.CommunicationsFailures
 import com.example.wocombo.core.domain.errors.EventFailures
+import com.example.wocombo.core.domain.models.Event
+import com.example.wocombo.core.domain.models.Schedule
 import com.example.wocombo.core.domain.usecases.DownloadEventsUseCase
 import com.example.wocombo.core.presentation.enums.InfoViewState
+import com.example.wocombo.core.presentation.enums.SortType
 import com.example.wocombo.core.presentation.ui.transmissionlist.TransmissionListViewModel
 import com.example.wocombo.core.presentation.ui.transmissionlist.events.adapter.EventListAdapter
+import com.example.wocombo.core.presentation.ui.transmissionlist.schedules.adapter.ScheduleListAdapter
 import com.example.wocombo.databinding.FragmentEventListBinding
 import de.mateware.snacky.Snacky
 import org.koin.android.ext.android.inject
@@ -35,6 +39,7 @@ class EventListFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         observe(vm.eventsLiveData, ::handleEventListDownload)
+        observe(parentVm.sortLiveData, ::handleSortScheduleList)
         super.onCreate(savedInstanceState)
     }
 
@@ -79,9 +84,7 @@ class EventListFragment : Fragment() {
             binding.srlEventList.isRefreshing = false
             response.events?.let { events ->
                 showEventViewState(InfoViewState.SHOW_ELEMENTS)
-                (binding.rvEventList.adapter as EventListAdapter).update(events)
-
-                //todo posortowac zgodnie z parentVm.sortLiveData
+                updateEventList(events)
             }
 
             response.failure?.let { failure ->
@@ -123,6 +126,19 @@ class EventListFragment : Fragment() {
             }
         }
     }
+
+    private fun handleSortScheduleList(sortType: SortType?) {
+        sortType?.let {
+            val adapter = (binding.rvEventList.adapter as? EventListAdapter)
+            adapter?.update(adapter.getEventList(), it)
+        }
+    }
+
+    private fun updateEventList(events: List<Event>) =
+        (binding.rvEventList.adapter as? EventListAdapter)?.update(
+            events,
+            parentVm.sortLiveData.value ?: SortType.ASCENDING
+        )
 
     private fun showEventViewState(viewState: InfoViewState) {
         when(viewState){

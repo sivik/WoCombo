@@ -1,0 +1,30 @@
+package com.example.wocombo.app.di
+
+import androidx.room.Room
+import com.example.wocombo.core.data.adapters.database.datasource.ReminderDbDataSourceImpl
+import com.example.wocombo.core.data.datasources.database.ReminderDbDataSource
+import com.example.wocombo.database.AppDatabase
+import org.koin.android.ext.koin.androidApplication
+import org.koin.dsl.module
+
+object DatabaseConstants{
+    const val DATABASE_NAME = "wocombo_db"
+}
+
+val databaseModule = module {
+
+    /*Repository*/
+    single<ReminderDbDataSource> { ReminderDbDataSourceImpl(get()) }
+
+    /*DAO*/
+    single { get<AppDatabase>().reminderDao() }
+
+    /*DB*/
+    single {
+        Room.databaseBuilder(
+            androidApplication(),
+            AppDatabase::class.java,
+            DatabaseConstants.DATABASE_NAME
+        ).build()
+    }
+}
