@@ -21,7 +21,7 @@ class AddReminderUseCase (
     override fun execute(request: Request): Result {
         return try {
             reminderRepository.addReminder(request.reminder)
-            return Result(reminderId = request.reminder.eventId)
+            return Result(reminderId = request.reminder.id)
         } catch (e: Exception) {
             logUseCaseError(e, javaClass.simpleName)
             Result(failure = Failure.UnknownFailure)

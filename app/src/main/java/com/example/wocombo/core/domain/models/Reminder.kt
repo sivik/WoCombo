@@ -4,7 +4,6 @@ import org.joda.time.DateTime
 
 data class Reminder(
     val id: Int,
-    val eventId: Int,
     val title: String,
     val date: DateTime
 )

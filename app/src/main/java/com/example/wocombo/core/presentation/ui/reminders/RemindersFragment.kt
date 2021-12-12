@@ -7,20 +7,26 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.addCallback
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
+import androidx.paging.LoadState
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.wocombo.R
 import com.example.wocombo.common.extensions.viewInflateBinding
 import com.example.wocombo.common.functional.observe
 import com.example.wocombo.common.logs.LoggerTags
 import com.example.wocombo.common.navigation.BaseNavigation
 import com.example.wocombo.core.domain.usecases.DeleteReminderUseCase
+import com.example.wocombo.core.presentation.enums.InfoViewState
 import com.example.wocombo.core.presentation.ui.reminders.adapter.RemindersAdapter
 import com.example.wocombo.databinding.FragmentRemindersBinding
 import de.mateware.snacky.Snacky
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -39,29 +45,66 @@ class RemindersFragment : Fragment() {
         super.onCreate(savedInstanceState)
     }
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ) = binding.root
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        initRecyclerView()
+        initAdapter()
+        initAdapterListener()
         getReminders()
         super.onViewCreated(view, savedInstanceState)
     }
 
     private fun getReminders() {
-        lifecycleScope.launch {
+        lifecycleScope.launch(Dispatchers.Default) {
             try {
                 vm.getReminders().catch { e ->
                     Log.e(LoggerTags.REMINDERS, "Cannot get reminders from db", e)
                     throw e
                 }.collectLatest { pagingData ->
-                    remindersAdapter.submitData(pagingData)
+                    withContext(Dispatchers.Main){
+                        remindersAdapter.submitData(pagingData)
+                    }
                 }
             } catch (e: Exception) {
-                Snacky.builder()
-                    .setActivity(requireActivity())
-                    .setText(R.string.err_unknown_failure)
-                    .setDuration(Snacky.LENGTH_SHORT)
-                    .error()
-                    .show()
+                Log.e(LoggerTags.REMINDERS, "Cannot get reminders", e)
                 cancel()
             }
+        }
+    }
+
+    private fun initAdapterListener() {
+        lifecycleScope.launch {
+            remindersAdapter.loadStateFlow.collectLatest { loadStates ->
+                when (loadStates.refresh) {
+                    is LoadState.Loading ->showReminderViewState(InfoViewState.LOADING)
+                    is LoadState.Error -> showReminderViewState(InfoViewState.ERROR)
+                    else -> {
+                        if (remindersAdapter.itemCount == 0) {
+                            showReminderViewState(InfoViewState.NO_ELEMENTS)
+                        } else {
+                            showReminderViewState(InfoViewState.SHOW_ELEMENTS)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun initAdapter() {
+        remindersAdapter.onReminderDeleted = {
+            vm.deleteReminder(it.id)
+        }
+    }
+
+    private fun initRecyclerView() {
+        binding.rvReminderList.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = remindersAdapter
         }
     }
 
@@ -72,7 +115,7 @@ class RemindersFragment : Fragment() {
                     .setActivity(requireActivity())
                     .setText(R.string.successfully_delete_reminder)
                     .setDuration(Snacky.LENGTH_SHORT)
-                    .error()
+                    .success()
                     .show()
             }
 
@@ -87,10 +130,40 @@ class RemindersFragment : Fragment() {
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ) = binding.root
+    private fun showReminderViewState(viewState: InfoViewState) {
+        when (viewState) {
+            InfoViewState.SHOW_ELEMENTS -> {
+                binding.rvReminderList.visibility = View.VISIBLE
+                binding.clStateContainer.visibility = View.GONE
+                binding.clLoadingContainer.visibility = View.GONE
+            }
+            InfoViewState.NO_ELEMENTS -> {
+                binding.rvReminderList.visibility = View.GONE
+                binding.clLoadingContainer.visibility = View.GONE
+                binding.clStateContainer.visibility = View.VISIBLE
+                binding.ivStateIcon.setImageDrawable(
+                    ContextCompat.getDrawable(requireContext(), R.drawable.box)
+                )
+                binding.tvStateTitle.text = getString(R.string.no_reminders)
+                binding.tvStateDescription.text = getString(R.string.add_reminders_to_show_list)
+            }
 
+            InfoViewState.LOADING -> {
+                binding.rvReminderList.visibility = View.GONE
+                binding.clStateContainer.visibility = View.GONE
+                binding.clLoadingContainer.visibility = View.VISIBLE
+            }
+            InfoViewState.ERROR -> {
+                binding.rvReminderList.visibility = View.GONE
+                binding.clLoadingContainer.visibility = View.GONE
+                binding.clStateContainer.visibility = View.VISIBLE
+                binding.ivStateIcon.setImageDrawable(
+                    ContextCompat.getDrawable(requireContext(), R.drawable.ic_error)
+                )
+                binding.tvStateTitle.text = getString(R.string.err_no_unknown_state_title)
+                binding.tvStateDescription.text = getString(R.string.err_unknown_failure)
+            }
+            InfoViewState.NO_INTERNET -> throw IllegalStateException("Reminders only from db")
+        }
+    }
 }

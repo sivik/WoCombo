@@ -18,6 +18,7 @@ class EventListAdapter(
 ) : RecyclerView.Adapter<EventListAdapter.EventListViewHolder>() {
 
     lateinit var onEventSelected: (Event) -> Unit
+    lateinit var onReminderAdded: (Event) -> Unit
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventListViewHolder {
         val binding =
@@ -39,6 +40,10 @@ class EventListAdapter(
     private fun initListeners(holder: EventListViewHolder, item: Event) {
         holder.binding.cvEventCard.setOnClickListener {
             onEventSelected.invoke(item)
+        }
+
+        holder.binding.ibAddReminder.setOnClickListener {
+            onReminderAdded.invoke(item)
         }
     }
 

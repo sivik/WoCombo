@@ -4,6 +4,8 @@ import androidx.room.Room
 import com.example.wocombo.core.data.adapters.database.datasource.ReminderDbDataSourceImpl
 import com.example.wocombo.core.data.datasources.database.ReminderDbDataSource
 import com.example.wocombo.database.AppDatabase
+import com.example.wocombo.database.data.repository.ReminderDbRepositoryImpl
+import com.example.wocombo.database.domain.repository.ReminderDbRepository
 import org.koin.android.ext.koin.androidApplication
 import org.koin.dsl.module
 
@@ -14,7 +16,7 @@ object DatabaseConstants{
 val databaseModule = module {
 
     /*Repository*/
-    single<ReminderDbDataSource> { ReminderDbDataSourceImpl(get()) }
+    single<ReminderDbRepository> { ReminderDbRepositoryImpl(get()) }
 
     /*DAO*/
     single { get<AppDatabase>().reminderDao() }

@@ -6,21 +6,18 @@ import com.example.wocombo.database.data.model.ReminderDbModel
 
 fun ReminderDbModel.mapToEntity() = ReminderEntity(
     id = id,
-    eventId = eventId,
     title = title,
     date = date
 )
 
 fun ReminderEntity.mapToDomain() = Reminder(
     id = id,
-    eventId = eventId,
     title = title,
     date = date
 )
 
 fun Reminder.mapToEntity() = ReminderEntity(
     id = id,
-    eventId = eventId,
     title = title,
     date = date
 )
@@ -28,7 +25,6 @@ fun Reminder.mapToEntity() = ReminderEntity(
 
 fun ReminderEntity.mapToDbModel() = ReminderDbModel(
     id = id,
-    eventId = eventId,
     title = title,
     date = date
 )

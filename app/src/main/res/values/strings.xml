@@ -45,4 +45,8 @@
     <string name="successfully_delete_reminder">Successfuly delete reminder</string>
     <string name="err_delete_reminder">Cannot delete reminder. Try again!</string>
     <string name="delete">delete</string>
+    <string name="successfully_add_reminder">Successfully add reminder!</string>
+    <string name="err_add_reminder">Cannot add reminder. Try Again!</string>
+    <string name="no_reminders">No reminders</string>
+    <string name="add_reminders_to_show_list">Add reminder to show list</string>
 </resources>

@@ -12,7 +12,7 @@ import com.example.wocombo.databinding.AdapterReminderListItemBinding
 class RemindersAdapter :
     PagingDataAdapter<Reminder, RemindersAdapter.ReminderListViewHolder>(REMINDER_DIFF_CALLBACK) {
 
-    lateinit var onReminderSelected: (Reminder) -> Unit
+    lateinit var onReminderDeleted: (Reminder) -> Unit
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ReminderListViewHolder {
         val binding =
@@ -35,7 +35,7 @@ class RemindersAdapter :
 
     private fun setDeleteButton(holder: ReminderListViewHolder, item: Reminder) {
         holder.binding.ibDelete.setOnClickListener {
-            onReminderSelected.invoke(item)
+            onReminderDeleted.invoke(item)
         }
     }
 
@@ -45,7 +45,7 @@ class RemindersAdapter :
     companion object {
         private val REMINDER_DIFF_CALLBACK = object : DiffUtil.ItemCallback<Reminder>() {
             override fun areItemsTheSame(oldItem: Reminder, newItem: Reminder): Boolean =
-                oldItem.id == newItem.id && oldItem.eventId == newItem.eventId && oldItem.title == newItem.title
+                oldItem.id == newItem.id && oldItem.title == newItem.title
 
             override fun areContentsTheSame(oldItem: Reminder, newItem: Reminder): Boolean =
                 oldItem == newItem

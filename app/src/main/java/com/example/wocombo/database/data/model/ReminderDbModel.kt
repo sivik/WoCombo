@@ -10,8 +10,6 @@ data class ReminderDbModel(
     @PrimaryKey
     @ColumnInfo(name = "id")
     val id: Int,
-    @ColumnInfo(name = "event_id")
-    val eventId: Int,
     @ColumnInfo(name = "title")
     val title: String,
     @ColumnInfo(name = "date")

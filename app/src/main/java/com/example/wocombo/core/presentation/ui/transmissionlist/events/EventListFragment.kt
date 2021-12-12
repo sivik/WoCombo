@@ -15,13 +15,14 @@ import com.example.wocombo.common.navigation.BaseNavigation
 import com.example.wocombo.core.domain.errors.CommunicationsFailures
 import com.example.wocombo.core.domain.errors.EventFailures
 import com.example.wocombo.core.domain.models.Event
-import com.example.wocombo.core.domain.models.Schedule
+import com.example.wocombo.core.domain.models.Reminder
+import com.example.wocombo.core.domain.usecases.AddReminderUseCase
 import com.example.wocombo.core.domain.usecases.DownloadEventsUseCase
 import com.example.wocombo.core.presentation.enums.InfoViewState
 import com.example.wocombo.core.presentation.enums.SortType
+import com.example.wocombo.core.presentation.ui.reminders.RemindersViewModel
 import com.example.wocombo.core.presentation.ui.transmissionlist.TransmissionListViewModel
 import com.example.wocombo.core.presentation.ui.transmissionlist.events.adapter.EventListAdapter
-import com.example.wocombo.core.presentation.ui.transmissionlist.schedules.adapter.ScheduleListAdapter
 import com.example.wocombo.databinding.FragmentEventListBinding
 import de.mateware.snacky.Snacky
 import org.koin.android.ext.android.inject
@@ -35,11 +36,13 @@ class EventListFragment : Fragment() {
     private val navigation: BaseNavigation by inject()
 
     private val vm: EventListViewModel by viewModel()
+    private val reminderVm: RemindersViewModel by viewModel()
     private val parentVm by sharedViewModel<TransmissionListViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         observe(vm.eventsLiveData, ::handleEventListDownload)
         observe(parentVm.sortLiveData, ::handleSortScheduleList)
+        observe(reminderVm.addReminderLiveData, ::handleAddReminder)
         super.onCreate(savedInstanceState)
     }
 
@@ -65,8 +68,20 @@ class EventListFragment : Fragment() {
         binding.rvEventList.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = EventListAdapter(LinkedList())
-            (adapter as EventListAdapter).onEventSelected = { selectedEvent ->
-                navigation.openPlayback(selectedEvent.title, selectedEvent.videoUrl)
+
+            (adapter as EventListAdapter).apply {
+                onEventSelected = { selectedEvent ->
+                    navigation.openPlayback(selectedEvent.title, selectedEvent.videoUrl)
+                }
+                onReminderAdded = { selectedEvent ->
+                    reminderVm.addReminder(
+                        Reminder(
+                            selectedEvent.id.toInt(),
+                            selectedEvent.title,
+                            selectedEvent.date
+                        )
+                    )
+                }
             }
         }
     }
@@ -95,7 +110,7 @@ class EventListFragment : Fragment() {
                         getString(R.string.err_timeout_failure)
                     }
 
-                    is CommunicationsFailures.NoInternetFailure ->{
+                    is CommunicationsFailures.NoInternetFailure -> {
                         showEventViewState(InfoViewState.NO_INTERNET)
                         getString(R.string.err_no_internet_failure)
                     }
@@ -103,7 +118,7 @@ class EventListFragment : Fragment() {
                     in listOf(
                         CommunicationsFailures.InternalServerFailure,
                         EventFailures.DownloadEventsFailure
-                    ) ->{
+                    ) -> {
                         showEventViewState(InfoViewState.ERROR)
                         getString(R.string.err_internal_server_failure)
                     }
@@ -127,6 +142,29 @@ class EventListFragment : Fragment() {
         }
     }
 
+
+    private fun handleAddReminder(result: AddReminderUseCase.Result?) {
+        result?.let { response ->
+            response.reminderId?.let {
+                Snacky.builder()
+                    .setActivity(requireActivity())
+                    .setText(R.string.successfully_add_reminder)
+                    .setDuration(Snacky.LENGTH_SHORT)
+                    .success()
+                    .show()
+            }
+
+            response.failure?.let {
+                Snacky.builder()
+                    .setActivity(requireActivity())
+                    .setText(R.string.err_add_reminder)
+                    .setDuration(Snacky.LENGTH_SHORT)
+                    .error()
+                    .show()
+            }
+        }
+    }
+
     private fun handleSortScheduleList(sortType: SortType?) {
         sortType?.let {
             val adapter = (binding.rvEventList.adapter as? EventListAdapter)
@@ -141,7 +179,7 @@ class EventListFragment : Fragment() {
         )
 
     private fun showEventViewState(viewState: InfoViewState) {
-        when(viewState){
+        when (viewState) {
             InfoViewState.SHOW_ELEMENTS -> {
                 binding.rvEventList.visibility = View.VISIBLE
                 binding.clStateContainer.visibility = View.GONE
@@ -162,7 +200,7 @@ class EventListFragment : Fragment() {
                 binding.clStateContainer.visibility = View.GONE
                 binding.clLoadingContainer.visibility = View.VISIBLE
             }
-            InfoViewState.ERROR ->  {
+            InfoViewState.ERROR -> {
                 binding.rvEventList.visibility = View.GONE
                 binding.clLoadingContainer.visibility = View.GONE
                 binding.clStateContainer.visibility = View.VISIBLE
