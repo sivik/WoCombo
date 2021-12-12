@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.wocombo.common.functional.SingleLiveData
 import com.example.wocombo.core.domain.usecases.DownloadEventsUseCase
 import com.example.wocombo.core.domain.usecases.LoginUseCase
+import com.example.wocombo.core.presentation.enums.SortType
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -18,9 +19,9 @@ class EventListViewModel(
     val eventsLiveData: LiveData<DownloadEventsUseCase.Result>
     get() = _eventsLiveData
 
-    fun downloadEvents() {
+    fun downloadEvents(sortType: SortType) {
         viewModelScope.launch(Dispatchers.Default) {
-            val request = DownloadEventsUseCase.Request()
+            val request = DownloadEventsUseCase.Request(sortType)
             val result = downloadEventsUseCase.execute(request)
             _eventsLiveData.postValue(result)
         }

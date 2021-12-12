@@ -61,7 +61,7 @@ class EventListFragment : Fragment() {
 
     private fun downloadEvents() {
         showEventViewState(InfoViewState.LOADING)
-        vm.downloadEvents()
+        vm.downloadEvents(parentVm.sortLiveData.value ?: SortType.ASCENDING)
     }
 
     private fun initAdapter() {
@@ -167,8 +167,8 @@ class EventListFragment : Fragment() {
 
     private fun handleSortScheduleList(sortType: SortType?) {
         sortType?.let {
-            val adapter = (binding.rvEventList.adapter as? EventListAdapter)
-            adapter?.update(adapter.getEventList(), it)
+            showEventViewState(InfoViewState.LOADING)
+            vm.downloadEvents(parentVm.sortLiveData.value ?: SortType.ASCENDING)
         }
     }
 
@@ -210,6 +210,7 @@ class EventListFragment : Fragment() {
                 binding.tvStateTitle.text = getString(R.string.err_no_unknown_state_title)
                 binding.tvStateDescription.text = getString(R.string.err_unknown_failure)
             }
+            InfoViewState.NO_ELEMENTS -> throw IllegalStateException("No elements in events no handled")
         }
     }
 }

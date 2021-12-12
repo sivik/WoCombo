@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.wocombo.common.functional.SingleLiveData
 import com.example.wocombo.core.domain.usecases.DownloadSchedulesUseCase
+import com.example.wocombo.core.presentation.enums.SortType
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -16,9 +17,9 @@ class ScheduleListViewModel(
     val scheduleLiveData: LiveData<DownloadSchedulesUseCase.Result>
         get() = _scheduleLiveData
 
-    fun downloadSchedules() {
+    fun downloadSchedules(sortType: SortType) {
         viewModelScope.launch(Dispatchers.Default) {
-            val request = DownloadSchedulesUseCase.Request()
+            val request = DownloadSchedulesUseCase.Request(sortType)
             val result = downloadSchedulesUseCase.execute(request)
             _scheduleLiveData.postValue(result)
         }

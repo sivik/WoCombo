@@ -23,6 +23,8 @@ class EventDiffCallback(
         return oldItem?.title == newItem?.title &&
                 oldItem?.id == newItem?.id &&
                 oldItem?.subtitle == newItem?.subtitle
+                && oldItem?.date == newItem?.date
+
     }
 
     private fun getItemsFromCollections(

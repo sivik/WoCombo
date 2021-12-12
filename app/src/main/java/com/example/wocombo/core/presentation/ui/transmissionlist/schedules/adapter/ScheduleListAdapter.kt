@@ -3,6 +3,7 @@ package com.example.wocombo.core.presentation.ui.transmissionlist.schedules.adap
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.wocombo.R
@@ -12,20 +13,20 @@ import com.example.wocombo.core.presentation.enums.SortType
 import com.example.wocombo.databinding.AdapterScheduleListItemBinding
 import java.util.*
 
-class ScheduleListAdapter(
-    private val schedules: LinkedList<Schedule>
-) : RecyclerView.Adapter<ScheduleListAdapter.ScheduleListViewHolder>() {
+class ScheduleListAdapter: ListAdapter<Schedule, ScheduleListAdapter.ScheduleListViewHolder>(ScheduleDiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ScheduleListViewHolder {
         val binding =
-            AdapterScheduleListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            AdapterScheduleListItemBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
         return ScheduleListViewHolder(binding)
     }
 
-    override fun getItemCount(): Int = schedules.size
-
     override fun onBindViewHolder(holder: ScheduleListViewHolder, position: Int) {
-        val item = schedules[position]
+        val item = getItem(position)
         setTitleText(holder, item)
         setSubtitleText(holder, item)
         setTransmissionDate(holder, item)
@@ -40,7 +41,7 @@ class ScheduleListAdapter(
         holder.binding.tvSubtitle.text = item.subtitle
     }
 
-    private fun setImage(holder: ScheduleListViewHolder, item: Schedule){
+    private fun setImage(holder: ScheduleListViewHolder, item: Schedule) {
         Glide
             .with(holder.itemView.context)
             .load(item.imageUrl)
@@ -61,20 +62,8 @@ class ScheduleListAdapter(
         }
     }
 
-    fun update(newSchedules: List<Schedule>, sortType: SortType) {
-        val diffCallback = ScheduleDiffCallback(LinkedList(schedules), LinkedList(newSchedules))
-        val diffResult = DiffUtil.calculateDiff(diffCallback)
-        when(sortType){
-            SortType.ASCENDING -> newSchedules.sortedBy { it.date }
-            SortType.DESCENDING -> newSchedules.sortedByDescending{ it.date }
-        }
-        schedules.clear()
-        schedules.addAll(newSchedules)
-        diffResult.dispatchUpdatesTo(this)
-    }
-
-    fun getScheduleList(): LinkedList<Schedule>{
-        return schedules
+    override fun submitList(list: List<Schedule>?) {
+        super.submitList(list?.let { ArrayList(it) })
     }
 
     class ScheduleListViewHolder(val binding: AdapterScheduleListItemBinding) :

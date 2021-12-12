@@ -9,7 +9,6 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.wocombo.R
 import com.example.wocombo.app.services.ServiceManager
 import com.example.wocombo.common.broadcast.ScheduleBroadcastConst
@@ -31,8 +30,6 @@ import de.mateware.snacky.Snacky
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.util.*
-import kotlin.collections.ArrayList
 
 class ScheduleListFragment : Fragment() {
 
@@ -81,14 +78,13 @@ class ScheduleListFragment : Fragment() {
 
     private fun downloadSchedules() {
         showScheduleViewState(InfoViewState.LOADING)
-        vm.downloadSchedules()
+        vm.downloadSchedules(parentVm.sortLiveData.value?: SortType.ASCENDING)
     }
 
     private fun initAdapter() {
         binding.rvScheduleList.apply {
             layoutManager = LinearLayoutManager(requireContext())
-            adapter = ScheduleListAdapter(LinkedList())
-            adapter?.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.ALLOW
+            adapter = ScheduleListAdapter()
         }
     }
 
@@ -151,16 +147,13 @@ class ScheduleListFragment : Fragment() {
 
     private fun handleSortScheduleList(sortType: SortType?) {
         sortType?.let {
-            val adapter = (binding.rvScheduleList.adapter as? ScheduleListAdapter)
-            adapter?.update(adapter.getScheduleList(), it)
+            showScheduleViewState(InfoViewState.LOADING)
+            vm.downloadSchedules(it)
         }
     }
 
     private fun updateScheduleList(schedules: List<Schedule>) =
-        (binding.rvScheduleList.adapter as? ScheduleListAdapter)?.update(
-            schedules,
-            parentVm.sortLiveData.value ?: SortType.ASCENDING
-        )
+        (binding.rvScheduleList.adapter as? ScheduleListAdapter)?.submitList(schedules)
 
     private fun showScheduleViewState(viewState: InfoViewState) {
         when (viewState) {
@@ -194,6 +187,7 @@ class ScheduleListFragment : Fragment() {
                 binding.tvStateTitle.text = getString(R.string.err_no_unknown_state_title)
                 binding.tvStateDescription.text = getString(R.string.err_unknown_failure)
             }
+            InfoViewState.NO_ELEMENTS -> throw IllegalStateException("No elements in schedule no handled")
         }
     }
 }

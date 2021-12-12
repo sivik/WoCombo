@@ -7,6 +7,7 @@ import com.example.wocombo.core.domain.errors.CommunicationsFailures
 import com.example.wocombo.core.domain.errors.ScheduleFailures
 import com.example.wocombo.core.domain.models.Schedule
 import com.example.wocombo.core.domain.repositories.ScheduleRepository
+import com.example.wocombo.core.presentation.enums.SortType
 import java.io.InterruptedIOException
 import java.net.ConnectException
 import java.net.UnknownHostException
@@ -17,7 +18,9 @@ class DownloadSchedulesUseCase(
     private val repository: ScheduleRepository
 ) : UseCase<DownloadSchedulesUseCase.Request, DownloadSchedulesUseCase.Result> {
 
-    class Request : UseCase.UseCaseRequest
+    data class Request(
+        val sortType: SortType
+    ) : UseCase.UseCaseRequest
 
     data class Result(
         val scheduleList: List<Schedule>? = null,
@@ -26,8 +29,12 @@ class DownloadSchedulesUseCase(
 
     override fun execute(request: Request): Result = try {
         val schedules = repository.downloadSchedules()
-        Result(scheduleList = schedules)
-    }  catch (e: UnknownHostException) {
+        val sortedList = when (request.sortType) {
+            SortType.ASCENDING -> schedules.sortedBy { it.date.millis }
+            SortType.DESCENDING -> schedules.sortedByDescending { it.date.millis }
+        }
+        Result(scheduleList = sortedList)
+    } catch (e: UnknownHostException) {
         logUseCaseError(e, javaClass.simpleName)
         Result(failure = CommunicationsFailures.NoInternetFailure)
     } catch (e: TimeoutException) {
