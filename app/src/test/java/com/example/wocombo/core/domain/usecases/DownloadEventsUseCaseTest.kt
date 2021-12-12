@@ -6,6 +6,7 @@ import com.example.wocombo.core.domain.errors.CommunicationsFailures
 import com.example.wocombo.core.domain.errors.EventFailures
 import com.example.wocombo.core.domain.models.Event
 import com.example.wocombo.core.domain.repositories.EventsRepository
+import com.example.wocombo.core.presentation.enums.SortType
 import io.mockk.confirmVerified
 import io.mockk.every
 import io.mockk.mockk
@@ -77,7 +78,7 @@ internal class DownloadEventsUseCaseTest {
         expected: DownloadEventsUseCase.Result
     ) {
         //ARRANGE
-        val fakeRequest = DownloadEventsUseCase.Request()
+        val fakeRequest = DownloadEventsUseCase.Request(SortType.ASCENDING)
 
         every {
             repository.downloadEvents()
@@ -98,7 +99,7 @@ internal class DownloadEventsUseCaseTest {
     @Test
     fun `Download events successfully`() {
         //ARRANGE
-        val fakeRequest = DownloadEventsUseCase.Request()
+        val fakeRequest = DownloadEventsUseCase.Request(SortType.ASCENDING)
 
         val fakeEvents = arrayListOf(
             Event(

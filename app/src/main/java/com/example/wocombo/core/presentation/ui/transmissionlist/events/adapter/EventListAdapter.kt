@@ -8,7 +8,6 @@ import com.bumptech.glide.Glide
 import com.example.wocombo.R
 import com.example.wocombo.common.extensions.getSpannableDateWithPeriodText
 import com.example.wocombo.core.domain.models.Event
-import com.example.wocombo.core.domain.models.Schedule
 import com.example.wocombo.core.presentation.enums.SortType
 import com.example.wocombo.databinding.AdapterEventListItemBinding
 import java.util.*

@@ -25,7 +25,7 @@
     <string name="example_user">Jan Kowalski</string>
     <string name="example_subs_desc">Subscription: Family Pack</string>
     <string name="transmission_image">transmission_image</string>
-    <string name="remaining_one_day">" (1 day)"</string>
+    <string name="remaining_one_day">" (Tommorow)"</string>
     <string name="remaining_more_days">" (%d days)"</string>
     <string name="remaining_more_min">" Today (%d min)"</string>
     <string name="remaining_one_hour">" Today (1 hour)"</string>
@@ -49,4 +49,11 @@
     <string name="err_add_reminder">Cannot add reminder. Try Again!</string>
     <string name="no_reminders">No reminders</string>
     <string name="add_reminders_to_show_list">Add reminder to show list</string>
+    <string name="sample_views_count">12K views | 1 day ago</string>
+    <string name="download">Download</string>
+    <string name="comments">Comments</string>
+    <string name="share">Share</string>
+    <string name="dislike">Dislike</string>
+    <string name="sample_count_likes">950</string>
+    <string name="avatar_content_description">avatar_content_description</string>
 </resources>

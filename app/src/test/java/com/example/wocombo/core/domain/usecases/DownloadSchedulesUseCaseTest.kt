@@ -9,6 +9,7 @@ import com.example.wocombo.core.domain.models.Event
 import com.example.wocombo.core.domain.models.Schedule
 import com.example.wocombo.core.domain.repositories.EventsRepository
 import com.example.wocombo.core.domain.repositories.ScheduleRepository
+import com.example.wocombo.core.presentation.enums.SortType
 import io.mockk.confirmVerified
 import io.mockk.every
 import io.mockk.mockk
@@ -80,7 +81,7 @@ internal class DownloadSchedulesUseCaseTest {
         expected: DownloadSchedulesUseCase.Result
     ) {
         //ARRANGE
-        val fakeRequest = DownloadSchedulesUseCase.Request()
+        val fakeRequest = DownloadSchedulesUseCase.Request(SortType.ASCENDING)
 
         every {
             repository.downloadSchedules()
@@ -101,7 +102,7 @@ internal class DownloadSchedulesUseCaseTest {
     @Test
     fun `Download schedules successfully`() {
         //ARRANGE
-        val fakeRequest = DownloadSchedulesUseCase.Request()
+        val fakeRequest = DownloadSchedulesUseCase.Request(SortType.ASCENDING)
 
         val fakeSchedules = arrayListOf(
             Schedule(

@@ -16,6 +16,7 @@
         <entry key="..\:/Users/Sebek/StudioProjects/WoCombo/app/src/main/res/drawable/ic_launcher_background.xml" value="0.20260416666666667" />
         <entry key="..\:/Users/Sebek/StudioProjects/WoCombo/app/src/main/res/drawable/ic_notifications_black_24dp.xml" value="0.20260416666666667" />
         <entry key="..\:/Users/Sebek/StudioProjects/WoCombo/app/src/main/res/layout/activity_main.xml" value="0.18645833333333334" />
+        <entry key="..\:/Users/Sebek/StudioProjects/WoCombo/app/src/main/res/layout/adapter_comment_list_item.xml" value="0.14945652173913043" />
         <entry key="..\:/Users/Sebek/StudioProjects/WoCombo/app/src/main/res/layout/adapter_event_list.xml" value="0.33" />
         <entry key="..\:/Users/Sebek/StudioProjects/WoCombo/app/src/main/res/layout/adapter_event_list_item.xml" value="0.25" />
         <entry key="..\:/Users/Sebek/StudioProjects/WoCombo/app/src/main/res/layout/adapter_reminder_list_item.xml" value="0.1" />
@@ -26,7 +27,7 @@
         <entry key="..\:/Users/Sebek/StudioProjects/WoCombo/app/src/main/res/layout/fragment_home.xml" value="0.161231884057971" />
         <entry key="..\:/Users/Sebek/StudioProjects/WoCombo/app/src/main/res/layout/fragment_login.xml" value="0.18645833333333334" />
         <entry key="..\:/Users/Sebek/StudioProjects/WoCombo/app/src/main/res/layout/fragment_notifications.xml" value="0.13949275362318841" />
-        <entry key="..\:/Users/Sebek/StudioProjects/WoCombo/app/src/main/res/layout/fragment_playback.xml" value="0.13043478260869565" />
+        <entry key="..\:/Users/Sebek/StudioProjects/WoCombo/app/src/main/res/layout/fragment_playback.xml" value="0.18" />
         <entry key="..\:/Users/Sebek/StudioProjects/WoCombo/app/src/main/res/layout/fragment_reminders.xml" value="0.12001811594202899" />
         <entry key="..\:/Users/Sebek/StudioProjects/WoCombo/app/src/main/res/layout/fragment_schedule_list.xml" value="0.18645833333333334" />
         <entry key="..\:/Users/Sebek/StudioProjects/WoCombo/app/src/main/res/layout/fragment_stream.xml" value="0.15579710144927536" />

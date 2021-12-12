@@ -2,14 +2,12 @@ package com.example.wocombo.core.presentation.ui.transmissionlist.schedules.adap
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.wocombo.R
 import com.example.wocombo.common.extensions.getSpannableDateWithPeriodText
 import com.example.wocombo.core.domain.models.Schedule
-import com.example.wocombo.core.presentation.enums.SortType
 import com.example.wocombo.databinding.AdapterScheduleListItemBinding
 import java.util.*
 
