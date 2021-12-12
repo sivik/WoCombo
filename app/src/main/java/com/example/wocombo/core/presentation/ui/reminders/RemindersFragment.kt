@@ -19,7 +19,7 @@ import com.example.wocombo.common.navigation.BaseNavigation
 import com.example.wocombo.core.domain.usecases.DeleteReminderUseCase
 import com.example.wocombo.core.presentation.enums.InfoViewState
 import com.example.wocombo.core.presentation.ui.reminders.adapter.RemindersAdapter
-import com.example.wocombo.databinding.FragmentRemindersBinding
+import com.example.wocombo.databinding.FragmentRemindersListBinding
 import de.mateware.snacky.Snacky
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
@@ -33,7 +33,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class RemindersFragment : Fragment() {
 
     private val vm: RemindersViewModel by viewModel()
-    private val binding by viewInflateBinding(FragmentRemindersBinding::inflate)
+    private val binding by viewInflateBinding(FragmentRemindersListBinding::inflate)
     private val navigation by inject<BaseNavigation>()
     private val remindersAdapter = RemindersAdapter()
 

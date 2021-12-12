@@ -21,11 +21,11 @@
     <string name="no">No</string>
     <string name="exit_app_question">Do you want to exit from App?</string>
     <string name="exit_title">EXIT</string>
-    <string name="about_app_description">WoCombo player application was created for the recruitment process of DAZN company</string>
+    <string name="about_app_description">WoCombo Sports application was created for the recruitment process of DAZN company</string>
     <string name="example_user">Jan Kowalski</string>
     <string name="example_subs_desc">Subscription: Family Pack</string>
     <string name="transmission_image">transmission_image</string>
-    <string name="remaining_one_day">" (Tommorow)"</string>
+    <string name="remaining_one_day">" (Tomorrow)"</string>
     <string name="remaining_more_days">" (%d days)"</string>
     <string name="remaining_more_min">" Today (%d min)"</string>
     <string name="remaining_one_hour">" Today (1 hour)"</string>
@@ -42,7 +42,7 @@
     <string name="err_no_internet_title">No internet</string>
     <string name="err_no_unknown_state_title">Error!</string>
     <string name="err_cannot_play_video">Cannot play video! Try Again!</string>
-    <string name="successfully_delete_reminder">Successfuly delete reminder</string>
+    <string name="successfully_delete_reminder">Successfully delete reminder</string>
     <string name="err_delete_reminder">Cannot delete reminder. Try again!</string>
     <string name="delete">delete</string>
     <string name="successfully_add_reminder">Successfully add reminder!</string>
