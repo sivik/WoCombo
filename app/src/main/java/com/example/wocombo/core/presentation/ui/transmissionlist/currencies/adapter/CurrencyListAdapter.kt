@@ -9,6 +9,7 @@ import com.bumptech.glide.Glide
 import com.example.wocombo.R
 import com.example.wocombo.core.domain.models.Currency
 import com.example.wocombo.databinding.AdapterCurrencyListItemBinding
+import java.math.RoundingMode
 import java.util.ArrayList
 
 class CurrencyListAdapter :
@@ -32,13 +33,13 @@ class CurrencyListAdapter :
     }
 
     private fun setCurrencyPrice(holder: CurrencyListViewHolder, item: Currency) {
-        holder.binding.tvCurrencyValue.text = item.priceUsd
-        holder.binding.tvCurrencyVolume.text = item.volume.toString()
+        holder.binding.tvCurrencyValue.text = "${item.priceUsd}$"
+        holder.binding.tvCurrencyVolume.text = item.volume.toBigDecimal().setScale(4, RoundingMode.HALF_EVEN).toPlainString()
     }
 
     private fun setPercentage(holder: CurrencyListViewHolder, item: Currency) {
-        holder.binding.tvCurrencyPercentage1H.text = item.percentHour
-        holder.binding.tvCurrencyPercentage24H.text = item.percentDay
+        holder.binding.tvCurrencyPercentage1H.text = "${item.percentHour}%"
+        holder.binding.tvCurrencyPercentage24H.text = "${item.percentDay}%"
     }
 
     private fun setNamesText(holder: CurrencyListViewHolder, item: Currency) {
@@ -75,7 +76,7 @@ class CurrencyListAdapter :
         Glide
             .with(holder.itemView.context)
             .load(icon)
-            .centerCrop()
+            .centerInside()
             .placeholder(R.drawable.ic_baseline_downloading_24)
             .into(holder.binding.ivCurrencyImage)
     }

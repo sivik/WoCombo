@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.wocombo.R
+import com.example.wocombo.app.services.DownloadCurrenciesService
 import com.example.wocombo.app.services.ServiceManager
 import com.example.wocombo.common.broadcast.BroadcastConst
 import com.example.wocombo.common.broadcast.CurrencyReceiver
@@ -20,13 +21,11 @@ import com.example.wocombo.common.navigation.BaseNavigation
 import com.example.wocombo.core.domain.errors.CommunicationsFailures
 import com.example.wocombo.core.domain.errors.ScheduleFailures
 import com.example.wocombo.core.domain.models.Currency
-import com.example.wocombo.core.domain.models.Schedule
 import com.example.wocombo.core.domain.usecases.DownloadCurrenciesUseCase
 import com.example.wocombo.core.presentation.enums.InfoViewState
 import com.example.wocombo.core.presentation.enums.SortType
 import com.example.wocombo.core.presentation.ui.transmissionlist.TransmissionListViewModel
 import com.example.wocombo.core.presentation.ui.transmissionlist.currencies.adapter.CurrencyListAdapter
-import com.example.wocombo.core.presentation.ui.transmissionlist.schedules.adapter.ScheduleListAdapter
 import com.example.wocombo.databinding.FragmentCurrencyListBinding
 import de.mateware.snacky.Snacky
 import org.koin.android.ext.android.inject
@@ -76,7 +75,11 @@ class CurrencyListFragment : Fragment() {
         val filter = IntentFilter(BroadcastConst.CURRENCIES_INTENT)
         LocalBroadcastManager.getInstance(requireActivity())
             .registerReceiver(currencyBroadcastReceiver, filter)
-        ServiceManager.startDownloadService(requireActivity().applicationContext, navigation)
+        ServiceManager.startDownloadService(
+            requireActivity().applicationContext,
+            navigation,
+            DownloadCurrenciesService::class
+        )
         super.onResume()
     }
 

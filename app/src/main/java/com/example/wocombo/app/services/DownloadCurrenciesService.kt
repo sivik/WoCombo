@@ -6,14 +6,12 @@ import android.os.IBinder
 import android.util.Log
 import com.example.wocombo.common.broadcast.CurrencyBroadcastManager
 import com.example.wocombo.common.logs.LoggerTags
-import com.example.wocombo.core.domain.repositories.ScheduleRepository
-import com.example.wocombo.common.broadcast.ScheduleBroadcastManager
 import com.example.wocombo.core.domain.repositories.CurrencyRepository
 import kotlinx.coroutines.*
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.get
 
-class DownloadCurrenciesServices : KoinComponent, Service() {
+class DownloadCurrenciesService : KoinComponent, Service() {
 
     private val repository: CurrencyRepository = get()
     private val broadcastManager: CurrencyBroadcastManager = get()
@@ -52,7 +50,7 @@ class DownloadCurrenciesServices : KoinComponent, Service() {
         Log.d(LoggerTags.DOWNLOAD_CURRENCIES_SERVICE, "Trying download currencies from remote server.")
         try {
             val schedules = repository.downloadCurrencies()
-            broadcastManager.assignCurrencies(schedules, this@DownloadCurrenciesServices)
+            broadcastManager.assignCurrencies(schedules, this@DownloadCurrenciesService)
         } catch (e: Exception) {
             Log.e(
                 LoggerTags.DOWNLOAD_CURRENCIES_SERVICE,

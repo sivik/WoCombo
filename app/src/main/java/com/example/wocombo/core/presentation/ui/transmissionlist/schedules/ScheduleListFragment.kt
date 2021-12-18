@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.wocombo.R
+import com.example.wocombo.app.services.DownloadScheduleService
 import com.example.wocombo.app.services.ServiceManager
 import com.example.wocombo.common.broadcast.BroadcastConst
 import com.example.wocombo.common.broadcast.ScheduleReceiver
@@ -72,7 +73,8 @@ class ScheduleListFragment : Fragment() {
         val filter = IntentFilter(BroadcastConst.SCHEDULE_INTENT)
         LocalBroadcastManager.getInstance(requireActivity())
             .registerReceiver(scheduleBroadcastReceiver, filter)
-        ServiceManager.startDownloadService(requireActivity().applicationContext, navigation)
+        ServiceManager.startDownloadService(requireActivity().applicationContext, navigation,
+            DownloadScheduleService::class)
         super.onResume()
     }
 
