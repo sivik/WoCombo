@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity() {
     override fun onSupportNavigateUp() = findNavController(R.id.nav_host_fragment_activity_main).navigateUp()
 
     override fun onDestroy() {
-        ServiceManager.stopDownloadService(this)
+        ServiceManager.stopDownloadService(applicationContext)
         super.onDestroy()
     }
 

@@ -12,8 +12,12 @@
     <string name="sort">Sort</string>
     <string name="filters">Filters</string>
     <string name="notification">Notifications</string>
-    <string name="sort_date_desc">Descending by date</string>
-    <string name="sort_date_asc">Ascending by date</string>
+    <string name="sort_date_desc">Desc. (DAZN) date (TWO UP) name</string>
+    <string name="sort_date_asc">Asc. (DAZN) date (TWO UP) name</string>
+    <string name="sort_volume_asc">Asc. volume</string>
+    <string name="sort_volume_desc">Desc. volume</string>
+    <string name="sort_percent_changing_asc">Asc. percent changing</string>
+    <string name="sort_percent_changing_desc">Desc. percent changing</string>
     <string name="info_filter_not_ready">Filters not ready yet!</string>
     <string name="info_notification_not_ready">Notifications not ready yet!</string>
     <string name="about">About</string>
@@ -56,4 +60,5 @@
     <string name="dislike">Dislike</string>
     <string name="sample_count_likes">950</string>
     <string name="avatar_content_description">avatar_content_description</string>
+    <string name="title_currencies">Currencies</string>
 </resources>

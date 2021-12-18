@@ -6,5 +6,7 @@ object LoggerTags {
     const val NAVIGATOR = "NAVIGATOR"
     const val VIDEO = "VIDEO"
     const val DOWNLOAD_SCHEDULE_SERVICE = "DOWNLOAD_SCHEDULE_SERVICE"
+    const val DOWNLOAD_CURRENCIES_SERVICE = "DOWNLOAD_CURRENCIES_SERVICE"
     const val REMINDERS = "REMINDERS"
+    const val CURRENCY = "CURRENCY"
 }

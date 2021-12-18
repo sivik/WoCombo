@@ -1,10 +1,10 @@
-package com.example.wocombo.core.data.adapters.remote.datasource
+package com.example.wocombo.core.data.adapters.remote.datasource.dazn
 
 import android.util.Log
 import com.example.wocombo.common.logs.LoggerHelper
 import com.example.wocombo.common.logs.LoggerTags
 import com.example.wocombo.core.data.adapters.remote.rest.api.EventApi
-import com.example.wocombo.core.data.datasources.remote.EventsRemoteDataSource
+import com.example.wocombo.core.data.datasources.remote.dazn.EventsRemoteDataSource
 import com.example.wocombo.core.data.exceptions.DownloadEventsException
 import com.example.wocombo.core.data.mappers.mapToEntity
 import com.example.wocombo.core.data.model.EventEntity

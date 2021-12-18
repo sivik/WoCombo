@@ -1,4 +1,4 @@
-package com.example.wocombo.core.presentation.ui.transmissionlist.schedules
+package com.example.wocombo.core.presentation.ui.transmissionlist.currencies
 
 import android.content.IntentFilter
 import android.os.Bundle
@@ -12,45 +12,49 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.wocombo.R
 import com.example.wocombo.app.services.ServiceManager
 import com.example.wocombo.common.broadcast.BroadcastConst
-import com.example.wocombo.common.broadcast.ScheduleReceiver
+import com.example.wocombo.common.broadcast.CurrencyReceiver
 import com.example.wocombo.common.extensions.viewInflateBinding
 import com.example.wocombo.common.functional.Failure
 import com.example.wocombo.common.functional.observe
 import com.example.wocombo.common.navigation.BaseNavigation
 import com.example.wocombo.core.domain.errors.CommunicationsFailures
 import com.example.wocombo.core.domain.errors.ScheduleFailures
+import com.example.wocombo.core.domain.models.Currency
 import com.example.wocombo.core.domain.models.Schedule
-import com.example.wocombo.core.domain.usecases.DownloadSchedulesUseCase
+import com.example.wocombo.core.domain.usecases.DownloadCurrenciesUseCase
 import com.example.wocombo.core.presentation.enums.InfoViewState
 import com.example.wocombo.core.presentation.enums.SortType
 import com.example.wocombo.core.presentation.ui.transmissionlist.TransmissionListViewModel
+import com.example.wocombo.core.presentation.ui.transmissionlist.currencies.adapter.CurrencyListAdapter
 import com.example.wocombo.core.presentation.ui.transmissionlist.schedules.adapter.ScheduleListAdapter
-import com.example.wocombo.databinding.FragmentScheduleListBinding
+import com.example.wocombo.databinding.FragmentCurrencyListBinding
 import de.mateware.snacky.Snacky
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class ScheduleListFragment : Fragment() {
+class CurrencyListFragment : Fragment() {
 
-    private val binding by viewInflateBinding(FragmentScheduleListBinding::inflate)
-    private val vm: ScheduleListViewModel by viewModel()
+    private val binding by viewInflateBinding(FragmentCurrencyListBinding::inflate)
+    private val vm: CurrencyListViewModel by viewModel()
     private val navigation: BaseNavigation by inject()
     private val parentVm by sharedViewModel<TransmissionListViewModel>()
 
-    /*Aktualnie lepszym i zalecanym rozwiązaniem byłoby użycie Work Manager niż Background Service + Broadcast */
-    private val scheduleBroadcastReceiver = ScheduleReceiver { schedules ->
+    private val currencyBroadcastReceiver = CurrencyReceiver { currencies ->
         val sortedList = when (parentVm.sortLiveData.value) {
-            SortType.ASCENDING -> schedules.sortedBy { it.date.millis }
-            SortType.DESCENDING -> schedules.sortedByDescending { it.date.millis }
-            null -> schedules.sortedBy { it.date.millis }
-            else -> schedules.sortedBy { it.date.millis }
+            SortType.ASCENDING -> currencies.sortedBy { it.name }
+            SortType.DESCENDING -> currencies.sortedByDescending { it.name }
+            SortType.ASCENDING_VOLUME -> currencies.sortedBy { it.volume }
+            SortType.DESCENDING_VOLUME -> currencies.sortedByDescending { it.volume }
+            SortType.ASCENDING_PERCENT -> currencies.sortedBy { it.percentDay }
+            SortType.DESCENDING_PERCENT -> currencies.sortedByDescending { it.percentDay }
+            else -> currencies.sortedBy { it.name }
         }
-        updateScheduleList(sortedList)
+        updateCurrencyList(sortedList)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        observe(vm.scheduleLiveData, ::handleScheduleListDownload)
+        observe(vm.currencyLiveData, ::handleCurrencyListDownload)
         observe(parentVm.sortLiveData, ::handleSortScheduleList)
         super.onCreate(savedInstanceState)
     }
@@ -65,13 +69,13 @@ class ScheduleListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initAdapter()
         initSwipeListener()
-        downloadSchedules()
+        downloadCurrencies()
     }
 
     override fun onResume() {
-        val filter = IntentFilter(BroadcastConst.SCHEDULE_INTENT)
+        val filter = IntentFilter(BroadcastConst.CURRENCIES_INTENT)
         LocalBroadcastManager.getInstance(requireActivity())
-            .registerReceiver(scheduleBroadcastReceiver, filter)
+            .registerReceiver(currencyBroadcastReceiver, filter)
         ServiceManager.startDownloadService(requireActivity().applicationContext, navigation)
         super.onResume()
     }
@@ -79,47 +83,47 @@ class ScheduleListFragment : Fragment() {
     override fun onPause() {
         super.onPause()
         LocalBroadcastManager.getInstance(requireActivity())
-            .unregisterReceiver(scheduleBroadcastReceiver)
+            .unregisterReceiver(currencyBroadcastReceiver)
     }
 
-    private fun downloadSchedules() {
-        showScheduleViewState(InfoViewState.LOADING)
-        vm.downloadSchedules(parentVm.sortLiveData.value ?: SortType.ASCENDING)
+    private fun downloadCurrencies() {
+        showCurrencyViewState(InfoViewState.LOADING)
+        vm.downloadCurrencies(parentVm.sortLiveData.value ?: SortType.ASCENDING)
     }
 
     private fun initAdapter() {
-        binding.rvScheduleList.apply {
+        binding.rvCurrencyList.apply {
             layoutManager = LinearLayoutManager(requireContext())
-            adapter = ScheduleListAdapter()
+            adapter = CurrencyListAdapter()
         }
     }
 
     private fun initSwipeListener() {
-        binding.srlScheduleList.setOnRefreshListener {
-            showScheduleViewState(InfoViewState.LOADING)
-            binding.srlScheduleList.isRefreshing = true
-            downloadSchedules()
+        binding.srlCurrencyList.setOnRefreshListener {
+            showCurrencyViewState(InfoViewState.LOADING)
+            binding.srlCurrencyList.isRefreshing = true
+            downloadCurrencies()
         }
     }
 
-    private fun handleScheduleListDownload(result: DownloadSchedulesUseCase.Result?) {
+    private fun handleCurrencyListDownload(result: DownloadCurrenciesUseCase.Result?) {
         result?.let { response ->
-            binding.srlScheduleList.isRefreshing = false
-            response.scheduleList?.let { schedules ->
-                showScheduleViewState(InfoViewState.SHOW_ELEMENTS)
-                updateScheduleList(schedules)
+            binding.srlCurrencyList.isRefreshing = false
+            response.currencies?.let { currencyList ->
+                showCurrencyViewState(InfoViewState.SHOW_ELEMENTS)
+                updateCurrencyList(currencyList)
             }
 
             response.failure?.let { failure ->
                 val error = when (failure) {
 
                     is CommunicationsFailures.ConnectionFailure -> {
-                        showScheduleViewState(InfoViewState.ERROR)
+                        showCurrencyViewState(InfoViewState.ERROR)
                         getString(R.string.err_timeout_failure)
                     }
 
                     is CommunicationsFailures.NoInternetFailure -> {
-                        showScheduleViewState(InfoViewState.NO_INTERNET)
+                        showCurrencyViewState(InfoViewState.NO_INTERNET)
                         getString(R.string.err_no_internet_failure)
                     }
 
@@ -127,16 +131,16 @@ class ScheduleListFragment : Fragment() {
                         CommunicationsFailures.InternalServerFailure,
                         ScheduleFailures.DownloadSchedulesFailure
                     ) -> {
-                        showScheduleViewState(InfoViewState.ERROR)
+                        showCurrencyViewState(InfoViewState.ERROR)
                         getString(R.string.err_internal_server_failure)
                     }
 
                     is Failure.UnknownFailure -> {
-                        showScheduleViewState(InfoViewState.ERROR)
+                        showCurrencyViewState(InfoViewState.ERROR)
                         getString(R.string.err_unknown_failure)
                     }
                     else -> {
-                        showScheduleViewState(InfoViewState.ERROR)
+                        showCurrencyViewState(InfoViewState.ERROR)
                         getString(R.string.err_unknown_failure)
                     }
                 }
@@ -153,23 +157,23 @@ class ScheduleListFragment : Fragment() {
 
     private fun handleSortScheduleList(sortType: SortType?) {
         sortType?.let {
-            showScheduleViewState(InfoViewState.LOADING)
-            vm.downloadSchedules(it)
+            showCurrencyViewState(InfoViewState.LOADING)
+            vm.downloadCurrencies(it)
         }
     }
 
-    private fun updateScheduleList(schedules: List<Schedule>) =
-        (binding.rvScheduleList.adapter as? ScheduleListAdapter)?.submitList(schedules)
+    private fun updateCurrencyList(schedules: List<Currency>) =
+        (binding.rvCurrencyList.adapter as? CurrencyListAdapter)?.submitList(schedules)
 
-    private fun showScheduleViewState(viewState: InfoViewState) {
+    private fun showCurrencyViewState(viewState: InfoViewState) {
         when (viewState) {
             InfoViewState.SHOW_ELEMENTS -> {
-                binding.rvScheduleList.visibility = View.VISIBLE
+                binding.rvCurrencyList.visibility = View.VISIBLE
                 binding.clStateContainer.visibility = View.GONE
                 binding.clLoadingContainer.visibility = View.GONE
             }
             InfoViewState.NO_INTERNET -> {
-                binding.rvScheduleList.visibility = View.GONE
+                binding.rvCurrencyList.visibility = View.GONE
                 binding.clLoadingContainer.visibility = View.GONE
                 binding.clStateContainer.visibility = View.VISIBLE
                 binding.ivStateIcon.setImageDrawable(
@@ -179,12 +183,12 @@ class ScheduleListFragment : Fragment() {
                 binding.tvStateDescription.text = getString(R.string.err_no_internet_failure)
             }
             InfoViewState.LOADING -> {
-                binding.rvScheduleList.visibility = View.GONE
+                binding.rvCurrencyList.visibility = View.GONE
                 binding.clStateContainer.visibility = View.GONE
                 binding.clLoadingContainer.visibility = View.VISIBLE
             }
             InfoViewState.ERROR -> {
-                binding.rvScheduleList.visibility = View.GONE
+                binding.rvCurrencyList.visibility = View.GONE
                 binding.clLoadingContainer.visibility = View.GONE
                 binding.clStateContainer.visibility = View.VISIBLE
                 binding.ivStateIcon.setImageDrawable(
@@ -197,5 +201,3 @@ class ScheduleListFragment : Fragment() {
         }
     }
 }
-
-
