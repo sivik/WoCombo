@@ -9,4 +9,5 @@ object LoggerTags {
     const val DOWNLOAD_CURRENCIES_SERVICE = "DOWNLOAD_CURRENCIES_SERVICE"
     const val REMINDERS = "REMINDERS"
     const val CURRENCY = "CURRENCY"
+    const val INDICATOR = "INDICATOR"
 }

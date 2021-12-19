@@ -2,10 +2,12 @@ package com.example.wocombo.app.di
 
 import com.example.wocombo.common.broadcast.CurrencyBroadcastManager
 import com.example.wocombo.common.broadcast.ScheduleBroadcastManager
+import com.example.wocombo.core.data.adapters.database.datasource.HistoryCurrencyDbDataSourceImpl
 import com.example.wocombo.core.data.adapters.database.datasource.ReminderDbDataSourceImpl
 import com.example.wocombo.core.data.adapters.remote.datasource.dazn.EventsRemoteDataSourceImpl
 import com.example.wocombo.core.data.adapters.remote.datasource.dazn.ScheduleRemoteDataSourceImpl
 import com.example.wocombo.core.data.adapters.remote.datasource.twoupdigital.CurrencyRemoteDataSourceImpl
+import com.example.wocombo.core.data.datasources.database.HistoryCurrencyDbDataSource
 import com.example.wocombo.core.data.datasources.database.ReminderDbDataSource
 import com.example.wocombo.core.data.datasources.remote.dazn.EventsRemoteDataSource
 import com.example.wocombo.core.data.datasources.remote.dazn.ScheduleRemoteDataSource
@@ -53,13 +55,14 @@ val coreModule = module {
     single<EventsRepository> { EventsRepositoryImpl(get()) }
     single<ScheduleRepository> { ScheduleRepositoryImpl(get()) }
     single<ReminderRepository> { ReminderRepositoryImpl(get()) }
-    single<CurrencyRepository> { CurrencyRepositoryImpl(get()) }
+    single<CurrencyRepository> { CurrencyRepositoryImpl(get(),get()) }
 
     /*DATASOURCE*/
     single<EventsRemoteDataSource> { EventsRemoteDataSourceImpl(get()) }
     single<ScheduleRemoteDataSource> { ScheduleRemoteDataSourceImpl(get()) }
     single<CurrencyRemoteDataSource> { CurrencyRemoteDataSourceImpl(get()) }
     single<ReminderDbDataSource> { ReminderDbDataSourceImpl(get()) }
+    single<HistoryCurrencyDbDataSource> { HistoryCurrencyDbDataSourceImpl(get()) }
 
     /*BROADCAST*/
     single { ScheduleBroadcastManager() }

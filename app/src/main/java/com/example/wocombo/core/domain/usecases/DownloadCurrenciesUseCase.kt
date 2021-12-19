@@ -28,7 +28,7 @@ class DownloadCurrenciesUseCase(
     ) : UseCase.UseCaseResponse
 
     override fun execute(request: Request): Result = try {
-        val currencies = repository.downloadCurrencies()
+        val currencies = repository.getCurrencies()
         val sortedList = when (request.sortType) {
             SortType.ASCENDING -> currencies.sortedBy { it.name }
             SortType.DESCENDING -> currencies.sortedByDescending { it.name }

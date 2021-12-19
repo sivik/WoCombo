@@ -9,4 +9,6 @@
     <color name="colorBackground">#FFFFFFFF</color>
     <color name="colorMenu">#777777</color>
     <color name="colorTextNoActive">#808080</color>
+    <color name="colorDecrease">#b71c1c</color>
+    <color name="colorIncrease">#3FD453</color>
 </resources>

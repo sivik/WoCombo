@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "9d42f859595395572af92094911251d4",
+    "identityHash": "fc1c45509987404b9418a79c9e2d3afb",
     "entities": [
       {
         "tableName": "reminders",
@@ -35,12 +35,56 @@
         },
         "indices": [],
         "foreignKeys": []
+      },
+      {
+        "tableName": "history_currencies",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER, `currency_id` INTEGER NOT NULL, `name_id` TEXT NOT NULL, `usd_price` REAL NOT NULL, `date` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "currencyId",
+            "columnName": "currency_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "nameId",
+            "columnName": "name_id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "priceUsd",
+            "columnName": "usd_price",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "date",
+            "columnName": "date",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
       }
     ],
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '9d42f859595395572af92094911251d4')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'fc1c45509987404b9418a79c9e2d3afb')"
     ]
   }
 }

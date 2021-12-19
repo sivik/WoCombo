@@ -12,7 +12,7 @@ data class CurrencyDataInfoRemoteModel(
 
 data class CurrencyRemoteModel(
     val csupply: String,
-    val id: String,
+    val id: Int,
     val market_cap_usd: String,
     val msupply: String,
     val name: String,
@@ -21,7 +21,7 @@ data class CurrencyRemoteModel(
     val percent_change_24h: String,
     val percent_change_7d: String,
     val price_btc: String,
-    val price_usd: String,
+    val price_usd: Double,
     val rank: Int,
     val symbol: String,
     val tsupply: String,

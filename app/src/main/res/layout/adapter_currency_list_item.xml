@@ -132,6 +132,17 @@
                         android:layout_marginEnd="8dp"
                         android:textSize="16sp"
                         tools:text="- 1.1654%" />
+                    <ImageView
+                        android:id="@+id/iv_indicator_image"
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:contentDescription="@string/transmission_image"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp"
+                        tools:src="@tools:sample/avatars" />
                 </LinearLayout>
 
 

@@ -49,7 +49,7 @@ class DownloadCurrenciesService : KoinComponent, Service() {
     private fun handleSchedulesFromServer() {
         Log.d(LoggerTags.DOWNLOAD_CURRENCIES_SERVICE, "Trying download currencies from remote server.")
         try {
-            val schedules = repository.downloadCurrencies()
+            val schedules = repository.getCurrencies()
             broadcastManager.assignCurrencies(schedules, this@DownloadCurrenciesService)
         } catch (e: Exception) {
             Log.e(
