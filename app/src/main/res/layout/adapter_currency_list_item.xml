@@ -23,8 +23,8 @@
 
             <ImageView
                 android:id="@+id/iv_currency_image"
-                android:layout_width="64dp"
-                android:layout_height="64dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
                 android:layout_gravity="center"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
@@ -144,10 +144,6 @@
                         android:layout_marginBottom="8dp"
                         tools:src="@tools:sample/avatars" />
                 </LinearLayout>
-
-
-
-
             </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
