@@ -10,6 +10,7 @@ import com.example.wocombo.core.domain.repositories.CurrencyRepository
 import com.example.wocombo.core.presentation.enums.SortType
 import java.io.InterruptedIOException
 import java.net.ConnectException
+import java.net.SocketTimeoutException
 import java.net.UnknownHostException
 import java.util.concurrent.TimeoutException
 import javax.net.ssl.SSLException
@@ -38,6 +39,7 @@ class DownloadCurrenciesUseCase(
             SortType.DESCENDING_PERCENT -> currencies.sortedByDescending { it.percentDay }
         }
         Result(currencies = sortedList)
+
     } catch (e: UnknownHostException) {
         logUseCaseError(e, javaClass.simpleName)
         Result(failure = CommunicationsFailures.NoInternetFailure)

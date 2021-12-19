@@ -34,7 +34,7 @@ fun HistoryCurrencyEntity.mapToDbModel() = HistoryCurrencyDbModel(
     currencyId = currencyId,
     nameId = nameId,
     priceUsd = priceUsd,
-    date = DateTime.now()
+    date = date
 )
 
 fun HistoryCurrencyDbModel.mapToEntity() = HistoryCurrencyEntity(

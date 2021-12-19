@@ -7,7 +7,6 @@ import org.joda.time.DateTime
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 
-
 internal class ReminderMapperTest{
     @Test
     fun `ReminderDbModel map to entity`() {

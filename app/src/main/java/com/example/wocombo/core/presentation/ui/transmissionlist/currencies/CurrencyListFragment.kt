@@ -19,6 +19,7 @@ import com.example.wocombo.common.functional.Failure
 import com.example.wocombo.common.functional.observe
 import com.example.wocombo.common.navigation.BaseNavigation
 import com.example.wocombo.core.domain.errors.CommunicationsFailures
+import com.example.wocombo.core.domain.errors.CurrencyFailures
 import com.example.wocombo.core.domain.errors.ScheduleFailures
 import com.example.wocombo.core.domain.models.Currency
 import com.example.wocombo.core.domain.usecases.DownloadCurrenciesUseCase
@@ -132,7 +133,7 @@ class CurrencyListFragment : Fragment() {
 
                     in listOf(
                         CommunicationsFailures.InternalServerFailure,
-                        ScheduleFailures.DownloadSchedulesFailure
+                        CurrencyFailures.DownloadCurrenciesFailure
                     ) -> {
                         showCurrencyViewState(InfoViewState.ERROR)
                         getString(R.string.err_internal_server_failure)

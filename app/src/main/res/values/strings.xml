@@ -16,8 +16,8 @@
     <string name="sort_date_asc">Asc. (DAZN) date (TWO) name</string>
     <string name="sort_volume_asc">Asc. volume</string>
     <string name="sort_volume_desc">Desc. volume</string>
-    <string name="sort_percent_changing_asc">Asc. percent changing</string>
-    <string name="sort_percent_changing_desc">Desc. percent changing</string>
+    <string name="sort_percent_changing_asc">Asc. 24H Change</string>
+    <string name="sort_percent_changing_desc">Desc. 24h Change</string>
     <string name="info_filter_not_ready">Filters not ready yet!</string>
     <string name="info_notification_not_ready">Notifications not ready yet!</string>
     <string name="about">About</string>
