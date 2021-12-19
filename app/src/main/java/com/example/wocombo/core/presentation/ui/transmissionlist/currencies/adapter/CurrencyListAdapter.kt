@@ -110,8 +110,8 @@ class CurrencyListAdapter :
             )
         }
 
-        holder.binding.tvCurrencyPercentage1H.text = "1h: ${item.percentHour}%"
-        holder.binding.tvCurrencyPercentage24H.text = "24h: ${item.percentDay}%"
+        holder.binding.tvCurrencyPercentage1H.text = "${item.percentHour}%"
+        holder.binding.tvCurrencyPercentage24H.text = "${item.percentDay}%"
     }
 
     private fun setNamesText(holder: CurrencyListViewHolder, item: Currency) {

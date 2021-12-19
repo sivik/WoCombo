@@ -36,114 +36,146 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cl_header"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="80dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <LinearLayout
-                    android:id="@+id/ll_currency_names"
+                <TextView
+                    android:id="@+id/tv_currency_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="12dp"
+                    android:textColor="#000000"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="DOGE" />
 
-                    <TextView
-                        android:id="@+id/tv_currency_name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginTop="12dp"
-                        android:layout_marginEnd="8dp"
-                        android:textColor="#000000"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
-                        tools:text="DOGE" />
+                <TextView
+                    android:id="@+id/tv_subtitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/tv_currency_name"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_currency_name"
+                    app:layout_constraintVertical_bias="0.0"
+                    tools:text="Dogecoin" />
 
-                    <TextView
-                        android:id="@+id/tv_subtitle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginEnd="8dp"
-                        android:textSize="14sp"
-                        tools:text="Dogecoin" />
-                </LinearLayout>
+                <ImageView
+                    android:id="@+id/iv_indicator_image"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="8dp"
+                    android:contentDescription="@string/transmission_image"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_currency_name"
+                    app:layout_constraintStart_toEndOf="@+id/tv_currency_name"
+                    app:layout_constraintTop_toTopOf="@+id/tv_currency_name"
+                    tools:src="@tools:sample/avatars" />
 
-                <LinearLayout
-                    android:id="@+id/ll_currency_values"
+                <TextView
+                    android:id="@+id/tv_currency_volume"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginEnd="8dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/ll_currency_percentage"
-                    app:layout_constraintStart_toEndOf="@+id/ll_currency_names"
-                    app:layout_constraintTop_toTopOf="parent">
+                    android:layout_gravity="end"
+                    android:layout_marginTop="1dp"
+                    android:textSize="12sp"
+                    app:layout_constraintEnd_toEndOf="@+id/tv_currency_value"
+                    app:layout_constraintStart_toStartOf="@+id/tv_subtitle"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_subtitle"
+                    tools:text="v. 212342342" />
 
-                    <TextView
-                        android:id="@+id/tv_currency_value"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginTop="12dp"
-                        android:layout_marginEnd="8dp"
-                        android:textColor="#000000"
-                        android:textSize="16sp"
-                        android:layout_gravity="end"
-                        android:textStyle="bold"
-                        tools:text="1.23455$" />
+                <TextView
+                    android:id="@+id/tv_currency_value"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:textColor="#000000"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_subtitle"
+                    app:layout_constraintEnd_toStartOf="@+id/space_col2"
+                    app:layout_constraintStart_toEndOf="@+id/space_col1"
+                    app:layout_constraintTop_toTopOf="@+id/tv_subtitle"
+                    tools:text="1.23455$" />
 
-                    <TextView
-                        android:id="@+id/tv_currency_volume"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_gravity="end"
-                        android:textSize="14sp"
-                        tools:text="v. 212342342" />
-                </LinearLayout>
-                <LinearLayout
-                    android:id="@+id/ll_currency_percentage"
+                <ImageView
+                    android:id="@+id/iv_hour_image"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_gravity="center"
+                    android:contentDescription="@string/transmission_image"
+                    android:src="@drawable/hourc"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_currency_percentage_1_h"
+                    app:layout_constraintEnd_toStartOf="@+id/tv_currency_percentage_1_h"
+                    app:layout_constraintStart_toEndOf="@+id/tv_currency_value"
+                    app:layout_constraintTop_toTopOf="@+id/tv_currency_percentage_1_h"
+                    tools:src="@tools:sample/avatars" />
+
+                <TextView
+                    android:id="@+id/tv_currency_percentage_1_h"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="12dp"
+                    android:textSize="14sp"
+                    android:textAlignment="center"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/space_col2"
+                    app:layout_constraintTop_toTopOf="@+id/tv_currency_name"
+                    tools:text="- 1.1654%" />
+
+                <ImageView
+                    android:id="@+id/iv_24hour_image"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:background="@drawable/daysc"
+                    android:contentDescription="@string/transmission_image"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_currency_percentage_24_h"
+                    app:layout_constraintStart_toEndOf="@+id/tv_currency_value"
+                    app:layout_constraintTop_toTopOf="@+id/tv_currency_percentage_24_h"
+                    tools:src="@tools:sample/avatars" />
+
+                <TextView
+                    android:id="@+id/tv_currency_percentage_24_h"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:textAlignment="center"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_currency_volume"
+                    app:layout_constraintEnd_toEndOf="@+id/tv_currency_percentage_1_h"
+                    app:layout_constraintStart_toEndOf="@+id/space_col2"
+                    tools:text="- 1.1654%" />
+
+                <Space
+                    android:id="@+id/space_col1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
+                    android:layout_marginTop="27dp"
+                    android:layout_marginBottom="42dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
-                    <TextView
-                        android:id="@+id/tv_currency_percentage_1_h"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_marginBottom="2dp"
-                        android:textSize="16sp"
-                        tools:text="- 1.1654%" />
-                    <TextView
-                        android:id="@+id/tv_currency_percentage_24_h"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginEnd="8dp"
-                        android:textSize="16sp"
-                        tools:text="- 1.1654%" />
-                    <ImageView
-                        android:id="@+id/iv_indicator_image"
-                        android:layout_width="16dp"
-                        android:layout_height="16dp"
-                        android:layout_gravity="center"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginEnd="8dp"
-                        android:contentDescription="@string/transmission_image"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginBottom="8dp"
-                        tools:src="@tools:sample/avatars" />
-                </LinearLayout>
+                    app:layout_constraintHorizontal_bias="0.38"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <Space
+                    android:id="@+id/space_col2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="27dp"
+                    android:layout_marginBottom="42dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.75"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
             </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
