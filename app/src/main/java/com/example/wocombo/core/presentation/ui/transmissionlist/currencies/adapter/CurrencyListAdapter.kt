@@ -2,7 +2,6 @@ package com.example.wocombo.core.presentation.ui.transmissionlist.currencies.ada
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.EditText
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.ListAdapter

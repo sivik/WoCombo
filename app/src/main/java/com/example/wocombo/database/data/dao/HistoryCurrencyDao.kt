@@ -12,7 +12,7 @@ interface HistoryCurrencyDao : BaseDao<HistoryCurrencyDbModel> {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     override fun insert(vararg obj: HistoryCurrencyDbModel): Array<Long>
 
-    @Query("SELECT * FROM history_currencies WHERE currency_id = :currencyId")
+    @Query("SELECT * FROM history_currencies WHERE currency_id = :currencyId ORDER BY date DESC LIMIT 20")
     fun getAllHistoryByCurrencyId(currencyId: Int): List<HistoryCurrencyDbModel>
 
 }

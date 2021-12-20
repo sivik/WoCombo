@@ -20,7 +20,6 @@ import com.example.wocombo.common.functional.observe
 import com.example.wocombo.common.navigation.BaseNavigation
 import com.example.wocombo.core.domain.errors.CommunicationsFailures
 import com.example.wocombo.core.domain.errors.CurrencyFailures
-import com.example.wocombo.core.domain.errors.ScheduleFailures
 import com.example.wocombo.core.domain.models.Currency
 import com.example.wocombo.core.domain.usecases.DownloadCurrenciesUseCase
 import com.example.wocombo.core.presentation.enums.InfoViewState
