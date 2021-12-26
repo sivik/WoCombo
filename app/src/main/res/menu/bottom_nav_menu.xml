@@ -10,4 +10,8 @@
         android:id="@+id/navigation_schedule"
         android:icon="@drawable/ic_baseline_schedule_24"
         android:title="@string/title_schedule" />
+    <item
+        android:id="@+id/navigation_currencies"
+        android:icon="@drawable/ic_baseline_currency_exchange_24"
+        android:title="@string/title_currencies" />
 </menu>

@@ -10,8 +10,9 @@ import androidx.fragment.app.Fragment
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.wocombo.R
+import com.example.wocombo.app.services.DownloadScheduleService
 import com.example.wocombo.app.services.ServiceManager
-import com.example.wocombo.common.broadcast.ScheduleBroadcastConst
+import com.example.wocombo.common.broadcast.BroadcastConst
 import com.example.wocombo.common.broadcast.ScheduleReceiver
 import com.example.wocombo.common.extensions.viewInflateBinding
 import com.example.wocombo.common.functional.Failure
@@ -44,6 +45,7 @@ class ScheduleListFragment : Fragment() {
             SortType.ASCENDING -> schedules.sortedBy { it.date.millis }
             SortType.DESCENDING -> schedules.sortedByDescending { it.date.millis }
             null -> schedules.sortedBy { it.date.millis }
+            else -> schedules.sortedBy { it.date.millis }
         }
         updateScheduleList(sortedList)
     }
@@ -68,10 +70,11 @@ class ScheduleListFragment : Fragment() {
     }
 
     override fun onResume() {
-        val filter = IntentFilter(ScheduleBroadcastConst.SCHEDULE_INTENT)
+        val filter = IntentFilter(BroadcastConst.SCHEDULE_INTENT)
         LocalBroadcastManager.getInstance(requireActivity())
             .registerReceiver(scheduleBroadcastReceiver, filter)
-        ServiceManager.startDownloadService(requireActivity(), navigation)
+        ServiceManager.startDownloadService(requireActivity().applicationContext, navigation,
+            DownloadScheduleService::class)
         super.onResume()
     }
 

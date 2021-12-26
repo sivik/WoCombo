@@ -14,7 +14,6 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.example.wocombo.R
 import com.example.wocombo.app.MainActivity
-import com.example.wocombo.app.services.ServiceManager
 import com.example.wocombo.common.extensions.reduceDragSensitivity
 import com.example.wocombo.common.extensions.viewInflateBinding
 import com.example.wocombo.common.navigation.BaseNavigation
@@ -83,6 +82,7 @@ class TransmissionListFragment : Fragment(), NavigationView.OnNavigationItemSele
             binding.vp2TransmissionList.currentItem = when (it.itemId) {
                 R.id.navigation_events -> 0
                 R.id.navigation_schedule -> 1
+                R.id.navigation_currencies -> 2
                 else -> 0
             }
             true
@@ -162,6 +162,26 @@ class TransmissionListFragment : Fragment(), NavigationView.OnNavigationItemSele
                 R.id.menu_sort_date_desc -> {
                     activateSortMenu(item)
                     vm.setSortType(SortType.DESCENDING)
+                    true
+                }
+                R.id.menu_sort_percent_changing_asc -> {
+                    activateSortMenu(item)
+                    vm.setSortType(SortType.ASCENDING_PERCENT)
+                    true
+                }
+                R.id.menu_sort_percent_changing_desc -> {
+                    activateSortMenu(item)
+                    vm.setSortType(SortType.DESCENDING_PERCENT)
+                    true
+                }
+                R.id.menu_sort_volume_asc -> {
+                    activateSortMenu(item)
+                    vm.setSortType(SortType.ASCENDING_VOLUME)
+                    true
+                }
+                R.id.menu_sort_volume_desc -> {
+                    activateSortMenu(item)
+                    vm.setSortType(SortType.DESCENDING_VOLUME)
                     true
                 }
                 else -> super.onOptionsItemSelected(item)

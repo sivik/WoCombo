@@ -12,7 +12,7 @@ class ScheduleReceiver(
 
     override fun onReceive(context: Context, intent: Intent) {
         val schedules: List<Schedule> =
-            intent.getParcelableArrayListExtra(ScheduleBroadcastConst.SCHEDULES) ?: emptyList()
+            intent.getParcelableArrayListExtra(BroadcastConst.SCHEDULES) ?: emptyList()
         setUnreadNotificationCountAction.invoke(ArrayList(schedules))
     }
 }

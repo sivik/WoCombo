@@ -30,11 +30,26 @@
                     android:id="@+id/menu_sort_date_desc"
                     android:checkable="true"
                     android:title="@string/sort_date_desc" />
-
                 <item
                     android:id="@+id/menu_sort_date_asc"
                     android:checkable="true"
                     android:title="@string/sort_date_asc" />
+                <item
+                    android:id="@+id/menu_sort_volume_desc"
+                    android:checkable="true"
+                    android:title="@string/sort_volume_desc" />
+                <item
+                    android:id="@+id/menu_sort_volume_asc"
+                    android:checkable="true"
+                    android:title="@string/sort_volume_asc" />
+                <item
+                    android:id="@+id/menu_sort_percent_changing_desc"
+                    android:checkable="true"
+                    android:title="@string/sort_percent_changing_desc" />
+                <item
+                    android:id="@+id/menu_sort_percent_changing_asc"
+                    android:checkable="true"
+                    android:title="@string/sort_percent_changing_asc" />
 
             </group>
         </menu>

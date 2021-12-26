@@ -6,7 +6,6 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.example.wocombo.core.domain.models.Schedule
 import org.koin.core.component.KoinComponent
 
-
 class ScheduleBroadcastManager: KoinComponent {
 
     private lateinit var broadcaster: LocalBroadcastManager
@@ -14,8 +13,8 @@ class ScheduleBroadcastManager: KoinComponent {
     fun assignSchedules(schedules: List<Schedule>, context: Context) {
         broadcaster = LocalBroadcastManager.getInstance(context)
         val intent =
-            Intent(ScheduleBroadcastConst.SCHEDULE_INTENT).apply {
-                putParcelableArrayListExtra(ScheduleBroadcastConst.SCHEDULES, ArrayList(schedules))
+            Intent(BroadcastConst.SCHEDULE_INTENT).apply {
+                putParcelableArrayListExtra(BroadcastConst.SCHEDULES, ArrayList(schedules))
             }
         broadcaster.sendBroadcast(intent)
     }

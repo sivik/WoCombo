@@ -15,6 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.WoCombo">
         <service android:name=".app.services.DownloadScheduleService" />
+        <service android:name=".app.services.DownloadCurrenciesService" />
 
         <activity
             android:name=".app.MainActivity"

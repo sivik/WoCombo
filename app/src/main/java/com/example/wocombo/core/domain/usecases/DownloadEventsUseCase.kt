@@ -32,6 +32,7 @@ class DownloadEventsUseCase(
         val sortedList = when (request.sortType) {
             SortType.ASCENDING -> events.sortedBy { it.date.millis }
             SortType.DESCENDING -> events.sortedByDescending { it.date.millis }
+            else -> events.sortedBy { it.date.millis }
         }
         Result(events = sortedList)
     } catch (e: UnknownHostException) {

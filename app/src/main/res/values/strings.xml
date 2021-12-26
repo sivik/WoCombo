@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">WoCombo Sports</string>
+    <string name="app_name">WoCombo</string>
     <string name="title_watch">Watch!</string>
     <string name="title_events">Events</string>
     <string name="title_schedule">Schedule</string>
@@ -12,8 +12,12 @@
     <string name="sort">Sort</string>
     <string name="filters">Filters</string>
     <string name="notification">Notifications</string>
-    <string name="sort_date_desc">Descending by date</string>
-    <string name="sort_date_asc">Ascending by date</string>
+    <string name="sort_date_desc">Desc. (DAZN) date (TWO) name</string>
+    <string name="sort_date_asc">Asc. (DAZN) date (TWO) name</string>
+    <string name="sort_volume_asc">Asc. volume</string>
+    <string name="sort_volume_desc">Desc. volume</string>
+    <string name="sort_percent_changing_asc">Asc. 24H Change</string>
+    <string name="sort_percent_changing_desc">Desc. 24h Change</string>
     <string name="info_filter_not_ready">Filters not ready yet!</string>
     <string name="info_notification_not_ready">Notifications not ready yet!</string>
     <string name="about">About</string>
@@ -21,7 +25,7 @@
     <string name="no">No</string>
     <string name="exit_app_question">Do you want to exit from App?</string>
     <string name="exit_title">EXIT</string>
-    <string name="about_app_description">WoCombo Sports application was created for the recruitment process of DAZN company</string>
+    <string name="about_app_description">WoCombo application was created for the interview recruitment process of "DAZN" and "Two Up Agency" company</string>
     <string name="example_user">Jan Kowalski</string>
     <string name="example_subs_desc">Subscription: Family Pack</string>
     <string name="transmission_image">transmission_image</string>
@@ -56,4 +60,5 @@
     <string name="dislike">Dislike</string>
     <string name="sample_count_likes">950</string>
     <string name="avatar_content_description">avatar_content_description</string>
+    <string name="title_currencies">Currencies</string>
 </resources>

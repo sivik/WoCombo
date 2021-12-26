@@ -81,6 +81,7 @@ class EventListAdapter(
         when(sortType){
             SortType.ASCENDING -> newEvents.sortedBy { it.date }
             SortType.DESCENDING -> newEvents.sortedByDescending{ it.date }
+            else -> newEvents.sortedBy { it.date }
         }
         events.clear()
         events.addAll(newEvents)

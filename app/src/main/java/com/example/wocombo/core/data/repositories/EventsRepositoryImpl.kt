@@ -1,6 +1,6 @@
 package com.example.wocombo.core.data.repositories
 
-import com.example.wocombo.core.data.datasources.remote.EventsRemoteDataSource
+import com.example.wocombo.core.data.datasources.remote.dazn.EventsRemoteDataSource
 import com.example.wocombo.core.data.mappers.mapToDomain
 import com.example.wocombo.core.domain.models.Event
 import com.example.wocombo.core.domain.repositories.EventsRepository

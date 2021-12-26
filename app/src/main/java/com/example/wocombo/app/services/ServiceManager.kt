@@ -1,42 +1,42 @@
 package com.example.wocombo.app.services
 
-import android.app.Activity
 import android.app.ActivityManager
 import android.content.Context
 import android.content.Intent
 import android.util.Log
 import com.example.wocombo.common.logs.LoggerTags
 import com.example.wocombo.common.navigation.BaseNavigation
+import kotlin.reflect.KClass
 
 class ServiceManager {
 
     companion object {
 
-        fun startDownloadService(activity: Activity, navigator: BaseNavigation) {
+        fun startDownloadService(context: Context, navigator: BaseNavigation, clazz: KClass<*>) {
 
             val isNotCurrentLoginFragment =
                 navigator.getNavigator()?.currentDestination?.label != "Login"
 
             if (isNotCurrentLoginFragment) {
                 val activityManager =
-                    activity.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+                    context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
                 for (service in activityManager.getRunningServices(Int.MAX_VALUE)) {
-                    if (DownloadScheduleService::class.java.name == service.service.className) {
+                    if (clazz.java.name == service.service.className) {
                         return
                     }
                 }
                 Log.d(LoggerTags.DOWNLOAD_SCHEDULE_SERVICE, "Start Download Service from activity")
-                activity.startService(Intent(activity, DownloadScheduleService::class.java))
+                context.startService(Intent(context, clazz.java))
             }
         }
 
-        fun stopDownloadService(activity: Activity) {
+        fun stopDownloadService(context: Context, clazz: KClass<*>) {
             val activityManager =
-                activity.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+                context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
             for (service in activityManager.getRunningServices(Int.MAX_VALUE)) {
                 if (DownloadScheduleService::class.java.name == service.service.className) {
                     Log.d(LoggerTags.DOWNLOAD_SCHEDULE_SERVICE, "Stop Download Service from activity")
-                    activity.stopService(Intent(activity, DownloadScheduleService::class.java))
+                    context.stopService(Intent(context, clazz.java))
                 }
             }
         }

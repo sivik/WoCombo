@@ -13,6 +13,6 @@ object ScheduleDiffCallback : DiffUtil.ItemCallback<Schedule>() {
     override fun areContentsTheSame(oldItem: Schedule, newItem: Schedule): Boolean {
         return oldItem.title == newItem.title &&
                 oldItem.id == newItem.id &&
-                oldItem.date.millis ==  oldItem.date.millis
+                oldItem.date.millis ==  newItem.date.millis
     }
 }

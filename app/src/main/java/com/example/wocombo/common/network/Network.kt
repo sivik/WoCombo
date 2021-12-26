@@ -1,6 +1,5 @@
 package com.example.wocombo.common.network
 
-import com.example.wocombo.BuildConfig
 import com.google.gson.GsonBuilder
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -11,10 +10,19 @@ import javax.net.ssl.SSLContext
 import javax.net.ssl.TrustManager
 import javax.net.ssl.X509TrustManager
 
-fun provideAnonymousRetrofit(client: OkHttpClient): Retrofit {
+fun provideAnonymousDaznRetrofit(client: OkHttpClient): Retrofit {
     return Retrofit.Builder()
-        //.baseUrl(BuildConfig.BASE_ANONYMOUS_URL)
+        //.baseUrl(BuildConfig.BASE_DAZN_ANONYMOUS_URL)
         .baseUrl("https://us-central1-dazn-sandbox.cloudfunctions.net/")
+        .client(client)
+        .addConverterFactory(GsonConverterFactory.create(GsonBuilder().serializeNulls().create()))
+        .build()
+}
+
+fun provideAnonymousTwoUpRetrofit(client: OkHttpClient): Retrofit {
+    return Retrofit.Builder()
+        //.baseUrl(BuildConfig.BASE_TWO_UP_ANONYMOUS_URL)
+        .baseUrl("https://api.coinlore.com/api/")
         .client(client)
         .addConverterFactory(GsonConverterFactory.create(GsonBuilder().serializeNulls().create()))
         .build()
