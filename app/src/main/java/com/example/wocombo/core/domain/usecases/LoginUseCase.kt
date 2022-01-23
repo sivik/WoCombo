@@ -1,5 +1,6 @@
 package com.example.wocombo.core.domain.usecases
 
+import android.util.Log
 import com.example.wocombo.common.functional.Failure
 import com.example.wocombo.common.functional.UseCase
 
@@ -19,6 +20,8 @@ class LoginUseCase(
 
     override fun execute(request: Request): Result = try {
         //Any authorization login code
+        Log.d("Sebek", "true")
+
         Result(success = true)
     } catch (e: Exception) {
         logUseCaseError(e, javaClass.simpleName)

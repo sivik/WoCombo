@@ -8,6 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.addCallback
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -24,7 +26,9 @@ import de.mateware.snacky.Snacky
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.koin.android.ext.android.inject
@@ -55,19 +59,26 @@ class RemindersFragment : Fragment() {
         initRecyclerView()
         initAdapter()
         initAdapterListener()
+        initObservers()
         getReminders()
         super.onViewCreated(view, savedInstanceState)
     }
 
-    private fun getReminders() {
-        lifecycleScope.launch(Dispatchers.Default) {
+    private fun initObservers() {
+        lifecycleScope.launch {
             try {
-                vm.getReminders().catch { e ->
+                vm.reminders.flowWithLifecycle(
+                    lifecycle = viewLifecycleOwner.lifecycle,
+                    minActiveState = Lifecycle.State.RESUMED
+                ).catch { e ->
                     Log.e(LoggerTags.REMINDERS, "Cannot get reminders from db", e)
                     throw e
-                }.collectLatest { pagingData ->
-                    withContext(Dispatchers.Main){
-                        remindersAdapter.submitData(pagingData)
+                }.collectLatest { result ->
+                    result.pagingData?.let { reminders ->
+                        reminders.collect { remindersAdapter.submitData(it) }
+                    }
+                    result.failure?.let {
+                        Log.e(LoggerTags.REMINDERS, "Cannot get reminders")
                     }
                 }
             } catch (e: Exception) {
@@ -75,6 +86,10 @@ class RemindersFragment : Fragment() {
                 cancel()
             }
         }
+    }
+
+    private fun getReminders() {
+        vm.getReminders()
     }
 
     private fun initAdapterListener() {

@@ -5,23 +5,36 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.wocombo.common.functional.SingleLiveData
 import com.example.wocombo.core.domain.usecases.DownloadCurrenciesUseCase
+import com.example.wocombo.core.domain.usecases.LoginUseCase
 import com.example.wocombo.core.presentation.enums.SortType
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 class CurrencyListViewModel(
     private val downloadCurrenciesUseCase: DownloadCurrenciesUseCase
 ) : ViewModel() {
 
-    private val _currencyLiveData: SingleLiveData<DownloadCurrenciesUseCase.Result> by lazy { SingleLiveData() }
-    val currencyLiveData: LiveData<DownloadCurrenciesUseCase.Result>
-        get() = _currencyLiveData
+    private val _currencies: SingleLiveData<DownloadCurrenciesUseCase.Result> by lazy { SingleLiveData() }
+    val currencies: LiveData<DownloadCurrenciesUseCase.Result>
+        get() = _currencies
 
     fun downloadCurrencies(sortType: SortType) {
+
         viewModelScope.launch(Dispatchers.Default) {
-            val request = DownloadCurrenciesUseCase.Request(sortType)
-            val result = downloadCurrenciesUseCase.execute(request)
-            _currencyLiveData.postValue(result)
+            flow {
+                val request = DownloadCurrenciesUseCase.Request(sortType)
+                emit(downloadCurrenciesUseCase.execute(request))
+            }.stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.Lazily,
+                initialValue = DownloadCurrenciesUseCase.Result()
+            ).collect {
+                _currencies.value = it
+            }
         }
     }
 }

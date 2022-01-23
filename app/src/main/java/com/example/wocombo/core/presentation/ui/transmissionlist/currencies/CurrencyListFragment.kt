@@ -53,7 +53,7 @@ class CurrencyListFragment : Fragment() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        observe(vm.currencyLiveData, ::handleCurrencyListDownload)
+        //observe(vm.currencyLiveData, ::handleCurrencyListDownload)
         observe(parentVm.sortLiveData, ::handleSortScheduleList)
         super.onCreate(savedInstanceState)
     }
@@ -65,10 +65,10 @@ class CurrencyListFragment : Fragment() {
     ) = binding.root
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
         initAdapter()
         initSwipeListener()
         downloadCurrencies()
+        super.onViewCreated(view, savedInstanceState)
     }
 
     override fun onResume() {

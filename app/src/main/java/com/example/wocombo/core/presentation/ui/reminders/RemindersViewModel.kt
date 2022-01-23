@@ -9,8 +9,9 @@ import com.example.wocombo.core.domain.models.Reminder
 import com.example.wocombo.core.domain.usecases.AddReminderUseCase
 import com.example.wocombo.core.domain.usecases.DeleteReminderUseCase
 import com.example.wocombo.core.domain.usecases.GetAllRemindersUseCase
+import com.example.wocombo.core.domain.usecases.LoginUseCase
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 class RemindersViewModel(
@@ -27,8 +28,11 @@ class RemindersViewModel(
     val deleteReminderLiveData: LiveData<DeleteReminderUseCase.Result>
         get() = _deleteReminderLiveData
 
+    private val _reminders = MutableStateFlow(GetAllRemindersUseCase.Result())
+    val reminders: StateFlow<GetAllRemindersUseCase.Result> = _reminders
+
     fun addReminder(reminder: Reminder) {
-        viewModelScope.launch(Dispatchers.Default) {
+        viewModelScope.launch(Dispatchers.IO) {
             val request = AddReminderUseCase.Request(reminder)
             val result = addReminderUseCase.execute(request)
             _addReminderLiveData.postValue(result)
@@ -36,17 +40,25 @@ class RemindersViewModel(
     }
 
     fun deleteReminder(id: Int) {
-        viewModelScope.launch(Dispatchers.Default) {
+        viewModelScope.launch(Dispatchers.IO) {
             val request = DeleteReminderUseCase.Request(id)
             val result = deleteReminderUseCase.execute(request)
             _deleteReminderLiveData.postValue(result)
         }
     }
 
-    fun getReminders(): Flow<PagingData<Reminder>> {
-        val request = GetAllRemindersUseCase.Request()
-        return requireNotNull(getAllRemindersUseCase.execute(request).pagingData) {
-            "Paging data cannot be null"
+    fun getReminders() {
+        viewModelScope.launch(Dispatchers.Default) {
+            flow {
+                val request = GetAllRemindersUseCase.Request()
+                emit(getAllRemindersUseCase.execute(request))
+            }.stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.Lazily,
+                initialValue = GetAllRemindersUseCase.Result()
+            ).collect {
+                _reminders.value = it
+            }
         }
     }
 }

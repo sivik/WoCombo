@@ -7,18 +7,24 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import androidx.appcompat.app.ActionBar
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import com.example.wocombo.R
 import com.example.wocombo.app.MainActivity
 import com.example.wocombo.common.extensions.AppBarHelper
 import com.example.wocombo.common.extensions.viewInflateBinding
-import com.example.wocombo.common.functional.observe
 import com.example.wocombo.common.navigation.BaseNavigation
 import com.example.wocombo.core.domain.usecases.LoginUseCase
 import com.example.wocombo.databinding.FragmentLoginBinding
 import de.mateware.snacky.Snacky
+import kotlinx.coroutines.InternalCoroutinesApi
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
+@InternalCoroutinesApi
 class LoginFragment : Fragment(R.layout.fragment_login) {
 
     private val vm: LoginViewModel by viewModel()
@@ -27,7 +33,6 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
     private var actionBar: ActionBar? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        observe(vm.loginLiveData, ::handleLogin)
         actionBar = (activity as MainActivity).supportActionBar
         super.onCreate(savedInstanceState)
     }
@@ -41,7 +46,9 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         AppBarHelper.setShowHideAnimationForActionBar(actionBar)
         actionBar?.hide()
+        initObservers()
         initListeners()
+        super.onViewCreated(view, savedInstanceState)
     }
 
     private fun initListeners() {
@@ -49,7 +56,6 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         binding.tilPassword.editText?.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE && binding.btLogin.isEnabled) {
                 binding.pbLoading.visibility = View.VISIBLE
-                login()
             }
             false
         }
@@ -70,29 +76,36 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         }
     }
 
-    private fun login(){
-        vm.login(
-            binding.tilLogin.editText?.text.toString(),
-            binding.tilPassword.editText?.text.toString()
-        )
+    private fun initObservers() {
+        lifecycleScope.launch {
+            vm.loginResult.flowWithLifecycle(
+                lifecycle = viewLifecycleOwner.lifecycle,
+                minActiveState = Lifecycle.State.STARTED
+            ).collect {
+                handleLogin(it)
+            }
+        }
     }
 
+    private fun login() = vm.login(
+        binding.tilLogin.editText?.text.toString(),
+        binding.tilPassword.editText?.text.toString()
+    )
 
-    private fun handleLogin(result: LoginUseCase.Result?) {
-        result?.let { response ->
-            response.success?.let {
-                navigation.openTransmissionList()
-            }
 
-            response.failure?.let {
-                binding.btLogin.isEnabled = true
-                Snacky.builder()
-                    .setActivity(requireActivity())
-                    .setText(R.string.err_login_failure)
-                    .setDuration(Snacky.LENGTH_SHORT)
-                    .error()
-                    .show()
-            }
+    private fun handleLogin(result: LoginUseCase.Result) {
+        result.success?.let {
+            navigation.openTransmissionList()
+        }
+
+        result.failure?.let {
+            binding.btLogin.isEnabled = true
+            Snacky.builder()
+                .setActivity(requireActivity())
+                .setText(R.string.err_login_failure)
+                .setDuration(Snacky.LENGTH_SHORT)
+                .error()
+                .show()
         }
     }
 }
