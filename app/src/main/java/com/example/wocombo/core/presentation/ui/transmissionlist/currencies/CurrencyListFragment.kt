@@ -120,7 +120,7 @@ class CurrencyListFragment : Fragment() {
     }
 
     private fun initObservers(){
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             try {
                 vm.currencies.flowWithLifecycle(
                     lifecycle = viewLifecycleOwner.lifecycle,
