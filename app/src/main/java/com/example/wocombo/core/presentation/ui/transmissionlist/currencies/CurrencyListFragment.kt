@@ -2,11 +2,15 @@ package com.example.wocombo.core.presentation.ui.transmissionlist.currencies
 
 import android.content.IntentFilter
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.wocombo.R
@@ -16,18 +20,24 @@ import com.example.wocombo.common.broadcast.BroadcastConst
 import com.example.wocombo.common.broadcast.CurrencyReceiver
 import com.example.wocombo.common.extensions.viewInflateBinding
 import com.example.wocombo.common.functional.Failure
+import com.example.wocombo.common.functional.Result
 import com.example.wocombo.common.functional.observe
+import com.example.wocombo.common.logs.LoggerTags
 import com.example.wocombo.common.navigation.BaseNavigation
 import com.example.wocombo.core.domain.errors.CommunicationsFailures
 import com.example.wocombo.core.domain.errors.CurrencyFailures
 import com.example.wocombo.core.domain.models.Currency
-import com.example.wocombo.core.domain.usecases.DownloadCurrenciesUseCase
+import com.example.wocombo.core.domain.usecases.DownloadCurrenciesFlowUseCase
 import com.example.wocombo.core.presentation.enums.InfoViewState
 import com.example.wocombo.core.presentation.enums.SortType
 import com.example.wocombo.core.presentation.ui.transmissionlist.TransmissionListViewModel
 import com.example.wocombo.core.presentation.ui.transmissionlist.currencies.adapter.CurrencyListAdapter
 import com.example.wocombo.databinding.FragmentCurrencyListBinding
 import de.mateware.snacky.Snacky
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -53,7 +63,6 @@ class CurrencyListFragment : Fragment() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        //observe(vm.currencyLiveData, ::handleCurrencyListDownload)
         observe(parentVm.sortLiveData, ::handleSortScheduleList)
         super.onCreate(savedInstanceState)
     }
@@ -65,6 +74,7 @@ class CurrencyListFragment : Fragment() {
     ) = binding.root
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        initObservers()
         initAdapter()
         initSwipeListener()
         downloadCurrencies()
@@ -109,50 +119,75 @@ class CurrencyListFragment : Fragment() {
         }
     }
 
-    private fun handleCurrencyListDownload(result: DownloadCurrenciesUseCase.Result?) {
+    private fun initObservers(){
+        lifecycleScope.launch {
+            try {
+                vm.currencies.flowWithLifecycle(
+                    lifecycle = viewLifecycleOwner.lifecycle,
+                    minActiveState = Lifecycle.State.RESUMED
+                ).catch { e ->
+                    Log.e(LoggerTags.CURRENCY, "Cannot get currencies from remote", e)
+                    throw e
+                }.collectLatest { result ->
+                    result?.let { response ->
+                       when(response){
+                           is Result.Error -> handleDownloadCurrencyError(response)
+                           is Result.Loading -> showCurrencyViewState(InfoViewState.LOADING)
+                           is Result.Success -> handleCurrencyListDownload(response.data)
+                       }
+                    }
+                }
+            } catch (e: Exception) {
+                Log.e(LoggerTags.CURRENCY, "Cannot get currencies", e)
+                cancel()
+            }
+        }
+    }
+
+    private fun handleDownloadCurrencyError(response: Result<DownloadCurrenciesFlowUseCase.Response>) {
+        val error = when (response.failure) {
+
+            is CommunicationsFailures.ConnectionFailure -> {
+                showCurrencyViewState(InfoViewState.ERROR)
+                getString(R.string.err_timeout_failure)
+            }
+
+            is CommunicationsFailures.NoInternetFailure -> {
+                showCurrencyViewState(InfoViewState.NO_INTERNET)
+                getString(R.string.err_no_internet_failure)
+            }
+
+            in listOf(
+                CommunicationsFailures.InternalServerFailure,
+                CurrencyFailures.DownloadCurrenciesFailure
+            ) -> {
+                showCurrencyViewState(InfoViewState.ERROR)
+                getString(R.string.err_internal_server_failure)
+            }
+
+            is Failure.UnknownFailure -> {
+                showCurrencyViewState(InfoViewState.ERROR)
+                getString(R.string.err_unknown_failure)
+            }
+            else -> {
+                showCurrencyViewState(InfoViewState.ERROR)
+                getString(R.string.err_unknown_failure)
+            }
+        }
+        Snacky.builder()
+            .setActivity(requireActivity())
+            .setText(error)
+            .setDuration(Snacky.LENGTH_LONG)
+            .error()
+            .show()
+    }
+
+    private fun handleCurrencyListDownload(result: DownloadCurrenciesFlowUseCase.Response?) {
         result?.let { response ->
             binding.srlCurrencyList.isRefreshing = false
             response.currencies?.let { currencyList ->
                 showCurrencyViewState(InfoViewState.SHOW_ELEMENTS)
                 updateCurrencyList(currencyList)
-            }
-
-            response.failure?.let { failure ->
-                val error = when (failure) {
-
-                    is CommunicationsFailures.ConnectionFailure -> {
-                        showCurrencyViewState(InfoViewState.ERROR)
-                        getString(R.string.err_timeout_failure)
-                    }
-
-                    is CommunicationsFailures.NoInternetFailure -> {
-                        showCurrencyViewState(InfoViewState.NO_INTERNET)
-                        getString(R.string.err_no_internet_failure)
-                    }
-
-                    in listOf(
-                        CommunicationsFailures.InternalServerFailure,
-                        CurrencyFailures.DownloadCurrenciesFailure
-                    ) -> {
-                        showCurrencyViewState(InfoViewState.ERROR)
-                        getString(R.string.err_internal_server_failure)
-                    }
-
-                    is Failure.UnknownFailure -> {
-                        showCurrencyViewState(InfoViewState.ERROR)
-                        getString(R.string.err_unknown_failure)
-                    }
-                    else -> {
-                        showCurrencyViewState(InfoViewState.ERROR)
-                        getString(R.string.err_unknown_failure)
-                    }
-                }
-                Snacky.builder()
-                    .setActivity(requireActivity())
-                    .setText(error)
-                    .setDuration(Snacky.LENGTH_LONG)
-                    .error()
-                    .show()
             }
         }
     }
@@ -165,8 +200,8 @@ class CurrencyListFragment : Fragment() {
         }
     }
 
-    private fun updateCurrencyList(schedules: List<Currency>) =
-        (binding.rvCurrencyList.adapter as? CurrencyListAdapter)?.submitList(schedules)
+    private fun updateCurrencyList(currencies: List<Currency>) =
+        (binding.rvCurrencyList.adapter as? CurrencyListAdapter)?.submitList(currencies)
 
     private fun showCurrencyViewState(viewState: InfoViewState) {
         when (viewState) {

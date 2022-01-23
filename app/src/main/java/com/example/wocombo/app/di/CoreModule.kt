@@ -50,6 +50,7 @@ val coreModule = module {
     single { DeleteReminderUseCase(get()) }
     single { GetAllRemindersUseCase(get()) }
     single { DownloadCurrenciesUseCase(get()) }
+    single { DownloadCurrenciesFlowUseCase(get()) }
 
     /*REPOSITORY*/
     single<EventsRepository> { EventsRepositoryImpl(get()) }
